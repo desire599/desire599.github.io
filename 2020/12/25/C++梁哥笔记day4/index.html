@@ -1,0 +1,474 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="一、内联函数                           宏函数与内联函数的比较       c++从c中继承的一个重要的特征就是效率。假如c++的效率明显低于c的效率，那么就会有很大的一批程序员不去用c++了。在c中我们经常把一些短并且执行频繁的计算写成宏，而不是函数，这样做的理由是为了执行效率，宏可以避免函数调用的开销，这些都由预处理来完成。但是c++出现之后，使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++梁哥笔记day4">
+<meta property="og:url" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="一、内联函数                           宏函数与内联函数的比较       c++从c中继承的一个重要的特征就是效率。假如c++的效率明显低于c的效率，那么就会有很大的一批程序员不去用c++了。在c中我们经常把一些短并且执行频繁的计算写成宏，而不是函数，这样做的理由是为了执行效率，宏可以避免函数调用的开销，这些都由预处理来完成。但是c++出现之后，使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic6.png">
+<meta property="article:published_time" content="2020-12-25T10:59:00.000Z">
+<meta property="article:modified_time" content="2020-12-25T15:20:21.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C++梁哥笔记day4 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">只要脚步不停，就一定能到达终点</div><div class="header-banner-info__subtitle">保持好奇心 保持乐趣 保有兴趣</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="一、内联函数                           宏函数与内联函数的比较       c++从c中继承的一个重要的特征就是效率。假如c++的效率明显低于c的效率，那么就会有很大的一批程序员不去用c++了。在c中我们经常把一些短并且执行频繁的计算写成宏，而不是函数，这样做的理由是为了执行效率，宏可以避免函数调用的开销，这些都由预处理来完成。但是c++出现之后，使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++梁哥笔记day4">
+<meta property="og:url" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="一、内联函数                           宏函数与内联函数的比较       c++从c中继承的一个重要的特征就是效率。假如c++的效率明显低于c的效率，那么就会有很大的一批程序员不去用c++了。在c中我们经常把一些短并且执行频繁的计算写成宏，而不是函数，这样做的理由是为了执行效率，宏可以避免函数调用的开销，这些都由预处理来完成。但是c++出现之后，使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic6.png">
+<meta property="article:published_time" content="2020-12-25T10:59:00.000Z">
+<meta property="article:modified_time" content="2020-12-25T15:20:21.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C++梁哥笔记day4 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><header class="post-header"><h1 class="post-title">C++梁哥笔记day4</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-12-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-12-25</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.6k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">17分</span></span></div></header><div class="post-body">
+        <h1 id="一、内联函数">
+          <a href="#一、内联函数" class="heading-link"><i class="fas fa-link"></i></a>一、内联函数</h1>
+      
+        <h2 id="宏函数与内联函数的比较">
+          <a href="#宏函数与内联函数的比较" class="heading-link"><i class="fas fa-link"></i></a>宏函数与内联函数的比较</h2>
+      <p>c++从c中继承的一个重要的特征就是效率。假如c++的效率明显低于c的效率，那么就会有很大的一批程序员不去用c++了。在c中我们经常把一些短并且执行频繁的计算写成宏，而不是函数，这样做的理由是为了执行效率，宏可以避免函数调用的开销，这些都由预处理来完成。但是c++出现之后，使用预处宏会出现两个问题：第一个在c中也会出现，宏看起来像一个函数调用，但是会有隐藏一些难以发现的错误。第二个问题是c++特有的，预处理器不允许访问类的成员，也就是说预处理宏不能用作类的成员函数。  </p>
+<a id="more"></a>
+<p>为了保持预处理宏的效率又增加安全性，而且还能像一般成员函数那样可以在类里访问自如，c++引入了内联函数（inline function）<br>内联函数为了继承宏函数的效率，没有函数调用时的开销，然后又可以像普通函数那样，可以进行参数、返回值类型的安全检查，有可以作为成员函数。</p>
+
+        <h2 id="预处理宏的缺陷">
+          <a href="#预处理宏的缺陷" class="heading-link"><i class="fas fa-link"></i></a>预处理宏的缺陷</h2>
+      <ul>
+<li>问题一：<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ADD(x,y) x+y</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">Add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret1 = ADD(<span class="number">10</span>,<span class="number">20</span>) * <span class="number">10</span>;<span class="comment">//希望的结果是300 实际上是210</span></span><br><span class="line">    <span class="keyword">int</span> ret2 = Add(<span class="number">10</span>,<span class="number">20</span>) * <span class="number">10</span>;<span class="comment">//希望的结果是300 实际上也是300</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"ret1="</span>&lt;&lt;ret1&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"ret2="</span>&lt;&lt;ret2&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic1.png" alt="图片"></li>
+</ul>
+<p>这个问题可以通过添加括号来解决 <code>#define ADD(x,y) x+y  ---&gt; #define ADD(x,y) (x+y)</code> ,问题二则无法解决  </p>
+<ul>
+<li>问题二：<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPARE(x,y) ((x) &lt; (y) ? (x) : (y))</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">Compare</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &lt; y ? x : y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b=<span class="number">3</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"COMPARE(++a,b)="</span>&lt;&lt;COMPARE(++a,b)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//3</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"Compare(++a,b)="</span>&lt;&lt;Compare(++a,b)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic2.png" alt="图片"></li>
+</ul>
+<p>按道理运行结果应该是<code>3 2</code>，实际上运行出来都是<code>3</code>，我有点迷啊</p>
+<ul>
+<li>问题三：<br>预定于宏函数没有作用域概念，无法作为一个类的成员函数，也就是说预定义宏没有办法表示类的范围。</li>
+</ul>
+
+        <h2 id="内联函数的概率">
+          <a href="#内联函数的概率" class="heading-link"><i class="fas fa-link"></i></a>内联函数的概率</h2>
+      <p>在c++中，预定义宏的概念是用内联函数来实现的，而内联函数本身也是一个真正的函数。内联函数具有普通函数的所有行为。唯一不同之处在于内联函数会在适当的地方像预定于宏一样展开，所以不需要函数调用的开销（压栈入栈）。因此应该不使用宏，使用内联函数。在普通函数（非成员函数）前面加上<code>inline</code>关键字使之成为内联函数。但是必须注意必须函数体和声明结合在一起，否则编译器将它作为普通函数来对待。inline void func(int a);以上写法没有任何效果，仅仅是声明函数，应该如下方式来做：inline void func(int a){ return a++;}<br>注意：编译器将会检查参数列表使用是否正确，并返回值（进行必要的转换）。这些是预处理器无法完成的。内联函数的确占用空间，但是内联函数相对于普通函数的优势只是省去了函数调用时候的压栈、跳转、返回的开销。我们可以理解为内联函数是以空间换时间。</p>
+<ul>
+<li><p>类内部的内联函数<br>为了定义内联函数，通常必须在函数第一前面放一个inline关键字，但是类内部定义内联函数时并不是必须的。任何类内部定义的函数自动成为内联函数。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        Person()&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"构造函数"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">PrintPerson</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"输出Person！"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+<li><p>内联函数和编译器的关系<br>  内联函数并不是何时何地都有效，为了理解内联函数何时有效，应该要知道编译器碰到内联函数会怎么处理？<br>  对于任何类型的函数，编译器会将函数类型（包括函数名字、参数类型、返回值类型）放到符号表中。同样，当编译器看到内联函数，并且对内联函数体进行分析没有发现错误时，也会将内联函数放到符号表。当的调用一个内联函数的时候，编译器首先确保传入参数类型是正确匹配的，或者如果类型不正确匹配，但是可以将其转换为正确类型，并且返回值在目标表达式里匹配正确类型，或者可以转换为目标类型，内联函数就会直接替换函数调用，这就消除了函数调用的开销。假如内联函数是成员函数，对象this指针也会被放入合适位置。类型检查和类型转换、包括在合适位置放入对象this指针这些都是预处理器并完成的。</p>
+<blockquote>
+<p>但是c++内联编译会有一些限制，以下情况编译器可能考虑不会将函数进行内联编译：<br>1、 不能存在任何形式的循环语句<br>2、 不能存在过多的条件判断语句<br>3、 函数体不能过于庞大，不能对函数进行取址操作</p>
+</blockquote>
+<p>  内联仅仅只是给编译器一个建议，编译器不一定会接受这种建议，如果你没有将函数声明为内联函数，那么编译器也可能将此函数进行内联编译。一个好的编译器将会内联小的、简单的函数。</p>
+</li>
+</ul>
+<hr>
+
+        <h1 id="二、缺省函数-函数的默认（缺省-）参数">
+          <a href="#二、缺省函数-函数的默认（缺省-）参数" class="heading-link"><i class="fas fa-link"></i></a>二、缺省函数 函数的默认（缺省 ）参数</h1>
+      <p>c++在声明函数原型的时候可以为一个或者多个参数指定默认（缺省）的参数值，当函数调用的时候如果没有指定这个值，表一起会自动用默认值代替。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x=<span class="number">10</span>,<span class="keyword">int</span> y=<span class="number">20</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test03</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add()&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//30</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">20</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//40</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">100</span>,<span class="number">200</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//300</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic3.png" alt="图片"></p>
+<p>注意：  </p>
+<ol>
+<li><p>函数的默认参数从左到右，如果一个参数设置了默认参数，那么这个参数之后的参数都必须设置默认参数  </p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y=<span class="number">20</span>,<span class="keyword">int</span> z=<span class="number">30</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test04</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//60</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>,<span class="number">40</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//80</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>,<span class="number">40</span>,<span class="number">80</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//130</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic4.png" alt="图片"></p>
+</li>
+<li><p>函数如果是分文件的，默认参数应设置在函数的声明中，在函数的定义中设置默认参数，编译器不会报错，但没有效果。</p>
+</li>
+</ol>
+<p><code>func.c</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x=<span class="number">10</span>,<span class="keyword">int</span> y=<span class="number">20</span>,<span class="keyword">int</span> z=<span class="number">30</span>)</span></span>&#123;<span class="comment">//在这里进行的默认参数的设置不会起效果 应该在声明中设置</span></span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p><code>main.c</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x,y=<span class="number">100</span>,z=<span class="number">200</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test05</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//310</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>,<span class="number">40</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//250</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>,<span class="number">40</span>,<span class="number">80</span>)&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//130</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    test05();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic5.png" alt="图片"></p>
+<hr>
+
+        <h1 id="三、函数的占位参数">
+          <a href="#三、函数的占位参数" class="heading-link"><i class="fas fa-link"></i></a>三、函数的占位参数</h1>
+      <p>c++在声明函数时，可以设置占位参数。占位参数只有参数类型声明，而没有参数名声明，一般情况下，在函数体内部无法使用占位参数。但是调用函数的时候必须要给占位参数传值。占着茅肯不拉屎。<br>占位参数也可以设置默认值。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> )</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> =<span class="number">20</span>)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test06</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//func1(10,20);//错误调用 缺少一个参数</span></span><br><span class="line">    func2(<span class="number">10</span>,<span class="number">20</span>);<span class="comment">//占位参数有默认值，可以不传值</span></span><br><span class="line">    func1(<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/pic6.png" alt="图片"></p>
+<blockquote>
+<p>什么时候用，在后面操作符重载的后置++要用到这个</p>
+</blockquote>
+<hr>
+
+        <h1 id="四、函数重载（c-多态的特性）">
+          <a href="#四、函数重载（c-多态的特性）" class="heading-link"><i class="fas fa-link"></i></a>四、函数重载（c++多态的特性）</h1>
+      <p>函数重载：同一个函数在不同场景下可以具有不用的含义。<br>函数重载的意义：方便函数名的使用</p>
+
+        <h2 id="函数重载基本语法">
+          <a href="#函数重载基本语法" class="heading-link"><i class="fas fa-link"></i></a>函数重载基本语法</h2>
+      <p>实现函数重载的条件：同一作用域 参数个数不同 参数类型不同 参数顺序不同</p>
+<p>注意：<br>1、函数的返回值不能作为函数重载的依据<br>2、函数重载和默认参数一起使用，要注意二义性</p>
+
+        <h2 id="函数重载实现原理">
+          <a href="#函数重载实现原理" class="heading-link"><i class="fas fa-link"></i></a>函数重载实现原理</h2>
+      <p>编译器为了实现函数重载，也是默认为我们做了一些幕后的工作，编译器用不同的参数类型来修饰不同的函数名，比如void func();编译器可能会将函数名修饰成funcv，当编译器碰到void func(int x),编译器可能会将函数名修饰成funcint，当编译器碰到void func(int x,char c),编译器可能会将函数名修饰为funcintchar，我这里使用“可能”这个字眼是因为编译器如何修饰重载的函数名称并没有一个统一的标准，所以不同的编译器可能会产生不同的内部名。<br><code>void func(){}</code><br><code>void func(int x){}</code><br><code>void func(int x,char c){}</code>  </p>
+<p>以上三个函数在Linux下生成的编译之后的函数名为：  </p>
+<p><code>_Z4funcv //v 代表void，无参数</code><br><code>_Z4funci //i 代表参数为int整型</code><br><code>_Z4funcic //ic 代表第一个参数为int类型 第二个参数为char类型</code></p>
+<hr>
+
+        <h1 id="五、C-和C混合编程-C库的">
+          <a href="#五、C-和C混合编程-C库的" class="heading-link"><i class="fas fa-link"></i></a>五、C++和C混合编程 C库的</h1>
+      <p>1、集成开发环境下<br><code>func.c</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">include&lt;stdio.h&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_sub</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x-y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p><code>func.h</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __FUNC_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __FUNC_H__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">my_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">my_sub</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></div></figure>
+
+<p><code>main.cpp</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"func.h"</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_add(<span class="number">10</span>,<span class="number">20</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;my_sub(<span class="number">10</span>,<span class="number">20</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<p>2、Ubuntu下<br>main.cpp func.c func.h<br>混合编译步骤：<br>gcc -c func.c -o func.o<br>g++ main.cpp fun.o -o main</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://www.yuencode.cn">假前端up主</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/">http://www.yuencode.cn/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/%E9%9A%8F%E8%AE%B0/">随记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/12/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day5/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">C++梁哥笔记day5</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/"><span class="paginator-prev__text">C++笔记梁哥day3</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、内联函数"><span class="toc-number">1.</span> <span class="toc-text">
+          一、内联函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#宏函数与内联函数的比较"><span class="toc-number">1.1.</span> <span class="toc-text">
+          宏函数与内联函数的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预处理宏的缺陷"><span class="toc-number">1.2.</span> <span class="toc-text">
+          预处理宏的缺陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内联函数的概率"><span class="toc-number">1.3.</span> <span class="toc-text">
+          内联函数的概率</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、缺省函数-函数的默认（缺省-）参数"><span class="toc-number">2.</span> <span class="toc-text">
+          二、缺省函数 函数的默认（缺省 ）参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、函数的占位参数"><span class="toc-number">3.</span> <span class="toc-text">
+          三、函数的占位参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、函数重载（c-多态的特性）"><span class="toc-number">4.</span> <span class="toc-text">
+          四、函数重载（c++多态的特性）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#函数重载基本语法"><span class="toc-number">4.1.</span> <span class="toc-text">
+          函数重载基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数重载实现原理"><span class="toc-number">4.2.</span> <span class="toc-text">
+          函数重载实现原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、C-和C混合编程-C库的"><span class="toc-number">5.</span> <span class="toc-text">
+          五、C++和C混合编程 C库的</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/website-bg/me.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">假前端up主</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/desire599/" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span><span class="sidebar-ov-social-item__text">github</span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/392608919" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon">B</span><span class="sidebar-ov-social-item__text">bilibili</span></a><a class="sidebar-ov-social-item" href="https://user.qzone.qq.com/1197780293" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span><span class="sidebar-ov-social-item__text">qq</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">8</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div></div></main></div><div class="clearfix"><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>假前端up主</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank" style="color:#ffffff;">鄂ICP备20007949号-1</a></span></div><div style="width:300px;margin:0 auto; padding:20px 0;"><a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/icons/archival.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42022202000078号</p></a></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '84692761a5d3776d26f4',
+    clientSecret: 'bdafce2aedf40c41d8d82adfe3b443d7371c45d7',
+    repo: 'desire599.github.io',
+    owner: 'desire599',
+    admin: ['desire599'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script></body></html>

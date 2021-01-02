@@ -1,0 +1,471 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="一、位数 字节       一字节即1byte一位即1bit1b &#x3D;&#x3D; 1024bit&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10.24程序猿节1kb &#x3D;&#x3D; 1024b1M &#x3D;&#x3D; 1024kb1G &#x3D;&#x3D; 1024M1T &#x3D;&#x3D; 1024G···········">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day1">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="一、位数 字节       一字节即1byte一位即1bit1b &#x3D;&#x3D; 1024bit&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10.24程序猿节1kb &#x3D;&#x3D; 1024b1M &#x3D;&#x3D; 1024kb1G &#x3D;&#x3D; 1024M1T &#x3D;&#x3D; 1024G···········">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/p4.png">
+<meta property="article:published_time" content="2020-05-01T19:26:43.000Z">
+<meta property="article:modified_time" content="2020-05-11T13:20:08.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/p4.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day1 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">只要脚步不停，就一定能到达终点</div><div class="header-banner-info__subtitle">保持好奇心 保持乐趣 保有兴趣</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="一、位数 字节       一字节即1byte一位即1bit1b &#x3D;&#x3D; 1024bit&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10.24程序猿节1kb &#x3D;&#x3D; 1024b1M &#x3D;&#x3D; 1024kb1G &#x3D;&#x3D; 1024M1T &#x3D;&#x3D; 1024G···········">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day1">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="一、位数 字节       一字节即1byte一位即1bit1b &#x3D;&#x3D; 1024bit&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10.24程序猿节1kb &#x3D;&#x3D; 1024b1M &#x3D;&#x3D; 1024kb1G &#x3D;&#x3D; 1024M1T &#x3D;&#x3D; 1024G···········">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/p4.png">
+<meta property="article:published_time" content="2020-05-01T19:26:43.000Z">
+<meta property="article:modified_time" content="2020-05-11T13:20:08.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/p4.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day1 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><header class="post-header"><h1 class="post-title">C语言 day1</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-05-02</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-05-11</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.4k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">16分</span></span></div></header><div class="post-body">
+        <h2 id="一、位数-字节">
+          <a href="#一、位数-字节" class="heading-link"><i class="fas fa-link"></i></a>一、位数 字节</h2>
+      <p>一字节即1byte<br>一位即1bit<br>1b == 1024bit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<sapn style="color:#16a085;">10.24程序猿节</sapn><br>1kb == 1024b<br>1M == 1024kb<br>1G == 1024M<br>1T == 1024G<br>···········  </p>
+<a id="more"></a>
+
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(char)=%d\n"</span>,<span class="keyword">sizeof</span>(<span class="keyword">char</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(short)=%d\n"</span>,<span class="keyword">sizeof</span>(short));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(int)=%d\n"</span>,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(long)=%d\n"</span>,<span class="keyword">sizeof</span>(<span class="keyword">long</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(float)=%d\n"</span>,<span class="keyword">sizeof</span>(<span class="keyword">float</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"sizeof(double)=%d\n"</span>,<span class="keyword">sizeof</span>(<span class="keyword">double</span>));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+<p>——————32位平台—————–<br>char 字符类型 占1字节的空间（8位二进制位）<br>short 短整型 占2字节的空间（16位二进制位）<br>int 整型 占4字节的空间（32位二进制位）<br>long 长整型 占4字节的空间（32位二进制位）<br>float 单精度浮点型 占4字节的空间（32位二进制位）<br>double 双精度浮点型 占8字节的空间（64位二进制位）<br>——————64位平台—————–<br>char 字符类型 占1字节的空间（8位二进制位）<br>short 短整型 占2字节的空间（16位二进制位）<br>int 整型 占4字节的空间（32位二进制位）<br>long 长整型 占8字节的空间（32位二进制位）[与32位平台的差别]<br>float 单精度浮点型 占4字节的空间（32位二进制位）<br>double 双精度浮点型 占8字节的空间（64位二进制位）  </p>
+
+        <h2 id="二、-siged-与-unsigned">
+          <a href="#二、-siged-与-unsigned" class="heading-link"><i class="fas fa-link"></i></a>二、 siged 与 unsigned</h2>
+      <ol>
+<li><p><code>signed</code>（一般省略）<br>二进制最高位为符号位，其他位为数据位；其中1表示负数，0表示正数。</p>
+</li>
+<li><p><code>unsigned</code>（不能省略）<br>数据没有符号位，所有位数都是数据位。<br>比如：<code>unsigned char</code> 范围0000 0000 ~ 1111 1111</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">// 定义一个有符号的int</span></span><br><span class="line">    <span class="keyword">signed</span> <span class="keyword">int</span> num1 = <span class="number">10</span>;<span class="comment">//num1是有符号的int</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// signed 默认是省略的（推荐）</span></span><br><span class="line">    <span class="keyword">int</span> num2 = <span class="number">10</span>;<span class="comment">//num2也是有符号的int</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义无符号的int，unsigned不能省略</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> num3 = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p>输出</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">// 有符号int数据输出</span></span><br><span class="line">    <span class="keyword">int</span> num1 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 无符号int数据输出</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> num2 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%u\n"</span>,num2);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有符号long数据输出</span></span><br><span class="line">    <span class="keyword">long</span> num3 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%ld\n"</span>,num3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 无符号long数据输出</span></span><br><span class="line">    <span class="keyword">long</span> num4 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lu\n"</span>,num4);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有符号short数据输出</span></span><br><span class="line">    <span class="keyword">long</span> num5 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%hd\n"</span>,num5);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 无符号short数据输出</span></span><br><span class="line">    <span class="keyword">long</span> num6 = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%hu\n"</span>,num6);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+<li><p>输入<br>与输出类似</p>
+</li>
+</ol>
+
+        <h2 id="三、进制">
+          <a href="#三、进制" class="heading-link"><i class="fas fa-link"></i></a>三、进制</h2>
+      
+        <h2 id="四、register-sizeof-typedef-volatile">
+          <a href="#四、register-sizeof-typedef-volatile" class="heading-link"><i class="fas fa-link"></i></a>四、register sizeof typedef volatile</h2>
+      <ol>
+<li><code>register</code>  <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">register</span> <span class="keyword">int</span> num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure></li>
+</ol>
+<ul>
+<li>尽量把num放到寄存器中，寄存器可能满了，放不下。  </li>
+<li>如果没有标明register，如果num被高频繁使用，系统也会将其放到寄存器中  </li>
+<li><b>注意：</b>寄存器的变量不能对其取地址&amp;num，只有在内存中的变量才有地址</li>
+</ul>
+<ol start="2">
+<li><p><code>sizeof()</code><br>输出数据类型所占的字节数</p>
+</li>
+<li><p><code>typedef</code><br>给已有的类型取一个别称</p>
+</li>
+</ol>
+<p>步骤：</p>
+<blockquote>
+<ol>
+<li>用已有的类型 定义一个变量</li>
+<li>用别名 替换 变量名</li>
+<li>在整个表达式的前方加上<code>typedef</code>   </li>
+</ol>
+</blockquote>
+<p>千万不要认为简单就不按步骤走；不要以为一个<code>typedef</code>后面第一个是已有类型 第二个是起的别名，旧的在中间，新的在后面。看看案例2就了解了 </p>
+<p>案例1：</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、</span></span><br><span class="line"><span class="keyword">int</span> num;</span><br><span class="line"><span class="comment">// 2、</span></span><br><span class="line"><span class="keyword">int</span> INT32;</span><br><span class="line"><span class="comment">// 3、</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> INT32;</span><br></pre></td></tr></table></div></figure>
+<p>案例2：给<code>int arr[5]</code> 取个别名</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span> arr[<span class="number">5</span>] ARR <span class="comment">// × 大错特错了</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1、</span></span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 2、</span></span><br><span class="line">    <span class="keyword">int</span> ARR[<span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 3、</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span> ARR[<span class="number">5</span>];</span><br><span class="line"><span class="comment">// 使用 用ARR去定义变量</span></span><br><span class="line">    ARR arr;<span class="comment">//arr就是一个拥有5个int元素的数组</span></span><br></pre></td></tr></table></div></figure>
+
+<ol start="4">
+<li><code>volatile</code><br>防止编译器优化 强制访问内存的操作<br>编译器对访问该变量的代码就不再进行优化，系统总是重新从它所在的内存读取数据<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> i=<span class="number">10</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+比如，现在有个有害气体检测装置，他检测到有害的气体的浓度，后通过一定的方式，最后存到内存中，由于气体浓度检测要求是实时的，会被CPU高频次的访问，这个时候系统会干个好事，将存在内存中的气体浓度值放到寄存器中，这个时候CPU每次都会是在寄存器中访问了，这个时候就非常危险。如果放在寄存器时的那个时刻有害气体浓度只有5%，而后有害气体浓度到达了95%这个时候cpu还是从寄存器中读取出的5%，展示给我们人的也是5%，但是这个时候实际上有害气体浓度已经很高了，人会有生命危险。</li>
+</ol>
+
+        <h2 id="五、实型数据-float-与double的一些问题">
+          <a href="#五、实型数据-float-与double的一些问题" class="heading-link"><i class="fas fa-link"></i></a>五、实型数据 (float 与double的一些问题)</h2>
+      <ol>
+<li>实型常量<br>实型常量也称为实数或者浮点数<br><b>十进制形式:</b>由小数点或数字组成 0.0、0.31/4.0<br><b>指数形式:</b>123e3 表示123*10^3  </li>
+</ol>
+<blockquote>
+<p>不以f结尾的常量是double类型</p>
+</blockquote>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="number">3.14</span>));<span class="comment">//输出8</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="number">3.14f</span>));<span class="comment">//输出4</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p><b>问题</b>：<br><code>float f = 3.14;</code>有没有问题？  </p>
+<p>答：3.14为const double 赋给 float f,将一个八字节的数据赋给了四字节的数据，但对于这个细品又似乎没有问题，好比把一个能装八升水的瓶子里的水往只能装四升水的空瓶子的倒，但是能装吧升水的瓶子也有可能只装了一升水<br><sapn style="color:#e67e22;">赋值语句等号两边类型尽量匹配</sapn> </p>
+
+        <h2 id="六、字符与字符串">
+          <a href="#六、字符与字符串" class="heading-link"><i class="fas fa-link"></i></a>六、字符与字符串</h2>
+      <p>计算机是只能储存数字的，对于字符，先将其转换成对应的ASCII码值，再进行存储  </p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch = <span class="string">'a'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>过程分析：计算机先去找a对应的ASCII码值为97在赋给ch；’a’中的单引号’’是取字符的ASCII码。<br><code>char ch = &#39;a&#39;;</code> 与 <code>char ch = 97;</code>完全等效</p>
+<p>思考：下面现象是为什么？</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch = <span class="string">'a'</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="string">'a'</span>));<span class="comment">//4字节</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(<span class="keyword">char</span>));<span class="comment">//1字节</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,<span class="keyword">sizeof</span>(ch));<span class="comment">//1字节</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>答：单引号’’是取字符的ASCII码值，第一个printf本质上是测常量97的字节数；而第二个printf测的是char类型，第三个printf测的是char类型的变量。</p>
+<p>案例：实现键盘输入abc，然后输出字符ac。<br>答：先来了解一下原理，当从键盘输入abc后，按下回车键Enter后键盘输入的abc会到标准输入设备，说人话就是一个用来缓冲的内存，当执行<code>ch1=getchar()</code>时，系统会把缓冲内存的第一个字符a拿出来给内存中的<code>ch1</code>;如果执行<code>getchar()</code>,同样的系统会把缓冲区内存中的第二个字符b取到，<code>getchar()</code>的本质就是去缓冲区拿一个字符，由于没有赋给任何变量，没有人要，那我给谁呢，系统索性就把取到的字符给扔掉了，丢弃一个字符。<br><img src="/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/p4.png" alt="图片"></p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch1=<span class="string">'\0'</span>,ch2=<span class="string">'\0'</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入abc:"</span>);</span><br><span class="line"></span><br><span class="line">    ch1=getchar();<span class="comment">//取到a</span></span><br><span class="line">    getchar();<span class="comment">//丢弃一个字符b</span></span><br><span class="line">    ch2=getchar();<span class="comment">//取到c</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"ch1=%c\n"</span>,ch1);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"ch2=%c\n"</span>,ch2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<ol>
+<li>转义字符<br>‘\n’换行<br>‘\t’缩进<br>‘\\‘表示一个斜杠’&#39;<br>‘%%’表示一个百分号’%’   </li>
+</ol>
+<p>问题：下面四项哪两个是相等的？<br>A： <code>printf(&quot;%d&quot;,&#39;0&#39;);</code><br>B： <code>printf(&quot;%d&quot;,&#39;\0&#39;);</code><br>C： <code>printf(&quot;%d&quot;,0);</code><br>D： <code>printf(&quot;%d&quot;,&quot;0&quot;);</code><br>答案：BC  </p>
+<p>其实看他们中哪两个相等，其实就是去判断他们中哪两个在计算机中储存的二进制相同A：字符’0’的ASCII码值为48；B：转义字符’\0’表示的就是0；C：0就是0，不用多说了；D：字符串”0”,表示字符串”0”的第0个元素的地址。</p>
+<ol start="2">
+<li>字符串 <code>&quot;&quot;</code><figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,<span class="string">"hello"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,<span class="keyword">sizeof</span>(<span class="string">"hello"</span>));<span class="comment">//打印6</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+思考一下：上面hello只有五个字符，hello所占的字节数为什么是6？<br>原因就是：系统会给每个字符串的末尾自动添加一个结束符’\0’来让计算机知道，什么时候该结束打印；字符串是第0个元素的首地址，打印的时候会一次从第0个元素往后打印知道碰到’\0’时结束打印。我们可以用如下代码来进行验证。  </li>
+</ol>
+<blockquote>
+<ul>
+<li>单引号取得是字符的ASCII码值  </li>
+<li>双引号取得是字符串首元素的地址  </li>
+<li><code>%s</code>从字符串的首元素逐个输出字符，直到遇到’\0’结束</li>
+</ul>
+</blockquote>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,<span class="string">"hello world"</span>);<span class="comment">//打印hello world</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>,<span class="string">"hello\0 world"</span>);<span class="comment">//打印hello</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"##%s###\n"</span>,<span class="string">"\0hello\0 world"</span>);<span class="comment">//什么都没有</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,<span class="keyword">sizeof</span>(<span class="string">"hello world"</span>));<span class="comment">//打印12</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,<span class="keyword">sizeof</span>(<span class="string">"hello\0 world"</span>));<span class="comment">//打印13</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>思考：’a’与”a”有什么区别？  </p>
+
+        <h2 id="二、格式化输出">
+          <a href="#二、格式化输出" class="heading-link"><i class="fas fa-link"></i></a>二、格式化输出</h2>
+      <p>%d 十进制有符号整数&nbsp;&nbsp;&nbsp;&nbsp;%u 十进制无符号整数<br>%x 以十六进制表示整数&nbsp;&nbsp;&nbsp;&nbsp;%0 以八进制表示整数<br>%f float性浮点数&nbsp;&nbsp;&nbsp;&nbsp;%lf double型浮点数<br>%e指数形式的浮点数&nbsp;&nbsp;&nbsp;&nbsp;%s 字符串<br>%c 单个字符&nbsp;&nbsp;&nbsp;&nbsp;%p 指针的值  </p>
+<p><b>特殊应用： </b><br>%3d<br>%03d 不足补0<br>%-3d 左对齐<br>%5.2<br>注意：%-03d 千万不要这样写</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://www.yuencode.cn">假前端up主</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/">http://www.yuencode.cn/2020/05/02/C%E8%AF%AD%E8%A8%80-day1/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/%E9%9A%8F%E8%AE%B0/">随记</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/C%E8%AF%AD%E8%A8%80/">C语言</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/05/03/C%E8%AF%AD%E8%A8%80-day2/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">C语言 day2</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/04/29/hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="paginator-prev__text">hexo个人博客搭建</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、位数-字节"><span class="toc-number">1.</span> <span class="toc-text">
+          一、位数 字节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、-siged-与-unsigned"><span class="toc-number">2.</span> <span class="toc-text">
+          二、 siged 与 unsigned</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、进制"><span class="toc-number">3.</span> <span class="toc-text">
+          三、进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、register-sizeof-typedef-volatile"><span class="toc-number">4.</span> <span class="toc-text">
+          四、register sizeof typedef volatile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、实型数据-float-与double的一些问题"><span class="toc-number">5.</span> <span class="toc-text">
+          五、实型数据 (float 与double的一些问题)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、字符与字符串"><span class="toc-number">6.</span> <span class="toc-text">
+          六、字符与字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、格式化输出"><span class="toc-number">7.</span> <span class="toc-text">
+          二、格式化输出</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/website-bg/me.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">假前端up主</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/desire599/" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span><span class="sidebar-ov-social-item__text">github</span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/392608919" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon">B</span><span class="sidebar-ov-social-item__text">bilibili</span></a><a class="sidebar-ov-social-item" href="https://user.qzone.qq.com/1197780293" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span><span class="sidebar-ov-social-item__text">qq</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">8</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div></div></main></div><div class="clearfix"><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>假前端up主</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank" style="color:#ffffff;">鄂ICP备20007949号-1</a></span></div><div style="width:300px;margin:0 auto; padding:20px 0;"><a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/icons/archival.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42022202000078号</p></a></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '84692761a5d3776d26f4',
+    clientSecret: 'bdafce2aedf40c41d8d82adfe3b443d7371c45d7',
+    repo: 'desire599.github.io',
+    owner: 'desire599',
+    admin: ['desire599'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script></body></html>

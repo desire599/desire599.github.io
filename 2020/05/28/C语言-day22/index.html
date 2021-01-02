@@ -1,0 +1,894 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="文件        文件的基本概念 C语言对文件的处理 文件的基本练习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day22">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="文件        文件的基本概念 C语言对文件的处理 文件的基本练习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic6.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic7.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic8.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic9.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic10.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic11.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic12.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic13.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic14.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic15.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic16.png">
+<meta property="article:published_time" content="2020-05-27T20:09:55.000Z">
+<meta property="article:modified_time" content="2020-05-28T07:47:49.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day22 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">只要脚步不停，就一定能到达终点</div><div class="header-banner-info__subtitle">保持好奇心 保持乐趣 保有兴趣</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="文件        文件的基本概念 C语言对文件的处理 文件的基本练习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day22">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="文件        文件的基本概念 C语言对文件的处理 文件的基本练习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic6.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic7.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic8.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic9.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic10.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic11.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic12.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic13.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic14.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic15.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic16.png">
+<meta property="article:published_time" content="2020-05-27T20:09:55.000Z">
+<meta property="article:modified_time" content="2020-05-28T07:47:49.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day22 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><header class="post-header"><h1 class="post-title">C语言 day22</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-05-28</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-05-28</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.5k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">25分</span></span></div></header><div class="post-body">
+        <h1 id="文件">
+          <a href="#文件" class="heading-link"><i class="fas fa-link"></i></a>文件</h1>
+      <ol>
+<li>文件的基本概念</li>
+<li>C语言对文件的处理</li>
+<li>文件的基本练习</li>
+</ol>
+<a id="more"></a>
+
+
+        <h2 id="文件的基本概念">
+          <a href="#文件的基本概念" class="heading-link"><i class="fas fa-link"></i></a>文件的基本概念</h2>
+      <ul>
+<li>磁盘文件：指一组相关数据的有序集合，通常储存在外部介质（如磁盘），使用时才调入内存。  </li>
+<li>设备文件：<ul>
+<li>键盘：标准输入文件</li>
+<li>屏幕：标准输出文件</li>
+<li>其他设备：打印机、触摸屏、摄像头、音箱等</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic1.png" alt="图片">  </p>
+<p>缓冲区的作用：<br>1、提高存取效率<br>2、提高磁盘的使用寿命</p>
+
+        <h3 id="磁盘文件的分类">
+          <a href="#磁盘文件的分类" class="heading-link"><i class="fas fa-link"></i></a>磁盘文件的分类</h3>
+      <ol>
+<li>一个文件通常是磁盘上一段命名的存储区</li>
+<li>计算机的存储在物理上是二进制的，所以物理上所有的磁盘文件本质上都是以字节<br>为单位进行顺序存储的</li>
+<li>从用户或者操作系统的使用角度上（逻辑上）可以把文件分为：<ul>
+<li>文本文件：基于字符编码的文件</li>
+<li>二进制文件：基于值编码的文件</li>
+</ul>
+</li>
+</ol>
+
+        <h3 id="文本文件">
+          <a href="#文本文件" class="heading-link"><i class="fas fa-link"></i></a>文本文件</h3>
+      <ol>
+<li>基于字符编码，常见编码有ASCII、UNICODE等，一般可以使用文本编辑器直接打开</li>
+</ol>
+<p>例如：数5678以ASCII码的存储形式为<code>00110101 00110110 00110111 00111000</code><br>歌词文件(lrc)：文本文件</p>
+
+        <h3 id="二进制文件">
+          <a href="#二进制文件" class="heading-link"><i class="fas fa-link"></i></a>二进制文件</h3>
+      <ol>
+<li>把内存中的数据按其在内存中的存储形式原样输出到磁盘上</li>
+<li>一般需要自己判断或使用特定的软件分析数据格式<br>例如：5678的储存形式为 二进制码：<code>00010110 00101110</code><br>音频文件(mp3)：二进制文件  </li>
+</ol>
+
+        <h3 id="文本文件、二进制文件的对比（重要）">
+          <a href="#文本文件、二进制文件的对比（重要）" class="heading-link"><i class="fas fa-link"></i></a>文本文件、二进制文件的对比（重要）</h3>
+      <ol>
+<li><p>译码：  </p>
+<ul>
+<li>文本文件编码基于字符定长，译码容易些</li>
+<li>二进制文件编码是变长的，译码难一些，不同的二进制文件，需要不同的译码方式，或即要使用不同的软件打开</li>
+</ul>
+</li>
+<li><p>空间利用率：</p>
+<ul>
+<li>二进制文件用一个比特来代表一个意思（位操作）</li>
+<li>文本文件任何一个符号至少需要一个字节</li>
+</ul>
+</li>
+<li><p>可读性：</p>
+<ul>
+<li>文本文件用通用的记事本就几乎可以浏览所有文本文件</li>
+<li>二进制文件需要一个具体的文件解码器，不如读图软件、音乐播放器等。</li>
+</ul>
+</li>
+</ol>
+
+        <h2 id="文件的打开与关闭">
+          <a href="#文件的打开与关闭" class="heading-link"><i class="fas fa-link"></i></a>文件的打开与关闭</h2>
+      <ul>
+<li><p>C语言中不能直接操作文件<br>只能采用库函数间接对文件进行操作</p>
+</li>
+<li><p>C语言操作文件的基本流程<br>在使用文件前调用打开函数将文件打开</p>
+</li>
+<li><p>打开文件会得到一个文件指针fp</p>
+<ol>
+<li>调用各种有关函数，利用fp对文件进行具体操作（读或写）</li>
+<li>在文件使用完后，及时电泳关闭函数来关闭文件</li>
+<li>C语言中所有的文件操作都围绕文件指针完成</li>
+</ol>
+</li>
+<li><p>任何文件使用之前必须打开，使用之后必须关闭</p>
+</li>
+</ul>
+
+        <h2 id="文件指针">
+          <a href="#文件指针" class="heading-link"><i class="fas fa-link"></i></a>文件指针</h2>
+      <ul>
+<li>文件指针的定义<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE * 指针变量名</span><br></pre></td></tr></table></div></figure>
+FILE是系统在头文件<code>stdio.h</code>中使用<code>typedef</code>定义出来的存储有关文件信息的一种结构体类型</li>
+</ul>
+<p><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic2.png" alt="图片">  </p>
+<ul>
+<li><p>注意：实际编程过程中，使用库函数操作文件，无需关心<code>FILE</code>结构体的细节</p>
+</li>
+<li><p>三个特殊的文件指针（无需定义，直接可以使用）</p>
+<ol>
+<li><code>stdio</code>：标准输入设备 默认为当前终端（键盘）</li>
+<li><code>stdout</code>：标准输出设备 默认为当前终端（屏幕）</li>
+<li><code>stderr</code>：标准出错 默认为当前终端（屏幕）<br>当我们程序出错或者使用perror函数时，信息打印在此终端</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="fopen打开文件">
+          <a href="#fopen打开文件" class="heading-link"><i class="fas fa-link"></i></a>fopen打开文件</h2>
+      <ul>
+<li><p>头文件：<code>#include &lt;stdio.h&gt;</code></p>
+</li>
+<li><p>函数定义：<code>FILE *fopen(const char *path, const char *mode);</code></p>
+<ol>
+<li>第一个参数：文件的路径</li>
+<li>第二个参数：打开方式 <code>r w a + b t</code></li>
+</ol>
+</li>
+<li><p>返回值：成功返回相应的指针，失败返回<code>NULL</code></p>
+</li>
+<li><p>第二个参数的集中形式（打开文件的方式）</p>
+<ol>
+<li><code>r</code>以只读的方式打开文件<ul>
+<li>文件不存在返回<code>NULL</code></li>
+<li>文件存在，返回文件指针，进行后续的读操作</li>
+</ul>
+</li>
+<li><code>w</code>以只写的方式打开<ul>
+<li>文件不存在，以指定文件名创建此文件</li>
+<li>文件存在，清空文件内容，进行写操作</li>
+<li>文件打不开（权限为只读），返回<code>NULL</code></li>
+</ul>
+</li>
+<li><code>a</code>以追加的方式打开文件<ul>
+<li>文件不存在，以指定文件名创建此文件（同<code>w</code>）</li>
+<li>文件存在，从文件的结尾处进行写操作</li>
+</ul>
+</li>
+<li><code>+</code>同时以读写方式打开指定文件<ul>
+<li>注意与<code>rw</code>的区别</li>
+</ul>
+</li>
+<li><code>b</code>和<code>t</code><ul>
+<li><code>b</code>以二进制的方式打开文件</li>
+<li><code>t</code>(可省略)以文本方式打开文件</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp = <span class="literal">NULL</span>;</span><br><span class="line">fp = fopen(文件名，文件使用方式);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h3 id="打开方式的组合形式">
+          <a href="#打开方式的组合形式" class="heading-link"><i class="fas fa-link"></i></a>打开方式的组合形式</h3>
+      <p><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic3.png" alt="图片"></p>
+
+        <h2 id="fclose关闭文件">
+          <a href="#fclose关闭文件" class="heading-link"><i class="fas fa-link"></i></a>fclose关闭文件</h2>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fclose(FILE *fp);</code></li>
+<li>返回值：<ul>
+<li>关闭成功：返回0</li>
+<li>关闭失败：返回非0</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp=<span class="literal">NULL</span>;</span><br><span class="line">fp=fopen(<span class="string">"a.txt"</span>,<span class="string">"r"</span>);</span><br><span class="line">fclose(fp);</span><br></pre></td></tr></table></div></figure>
+
+
+        <h2 id="文件的顺序读写">
+          <a href="#文件的顺序读写" class="heading-link"><i class="fas fa-link"></i></a>文件的顺序读写</h2>
+      <ul>
+<li>字节读写函数：<code>fgetc</code>和<code>fputc</code></li>
+<li>字符串读写函数：<code>fgets</code>和<code>fputs</code></li>
+<li>数据块读写函数：<code>fread</code>和<code>fwrite</code></li>
+<li>格式化读写函数：<code>fscanf</code>和<code>fprintf</code></li>
+</ul>
+
+        <h2 id="字节的读写函数">
+          <a href="#字节的读写函数" class="heading-link"><i class="fas fa-link"></i></a>字节的读写函数</h2>
+      
+        <h3 id="字节的读操作fgetc">
+          <a href="#字节的读操作fgetc" class="heading-link"><i class="fas fa-link"></i></a>字节的读操作fgetc</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fgetc(FILE *stream);</code></li>
+<li>返回值：<ul>
+<li>读取成功： 返回字符对应的ASCII码</li>
+<li>到达文件末尾或发生读错误：返回 EOF。<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch=fgetc(fp);<span class="comment">//读一个字节</span></span><br></pre></td></tr></table></div></figure></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>文本文件：读到文件末尾返回EOF（EOF是个宏-1）</li>
+<li>二进制文件：要使用feof判断是否到达文件末尾</li>
+</ol>
+
+        <h3 id="字节的读操作fgetc-1">
+          <a href="#字节的读操作fgetc-1" class="heading-link"><i class="fas fa-link"></i></a>字节的读操作fgetc</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fputc(int c, FILE *stream);</code></li>
+<li>返回值：<ul>
+<li>输出成功：返回输出的字节</li>
+<li>输出失败：返回EOF<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch=fgetc(fp);<span class="comment">//读一个字节</span></span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+
+        <h3 id="案例1：">
+          <a href="#案例1：" class="heading-link"><i class="fas fa-link"></i></a>案例1：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">256</span>] = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/a.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		buf[i] = fgetc(fp);</span><br><span class="line">		<span class="keyword">if</span> (buf[i] == EOF) &#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, buf);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic4.png" alt="图片"><br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic5.png" alt="图片"></p>
+
+        <h3 id="案例2：">
+          <a href="#案例2：" class="heading-link"><i class="fas fa-link"></i></a>案例2：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">256</span>] = <span class="string">""</span>;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/b.txt"</span>, <span class="string">"w"</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入要写入的字符串：\n"</span>);</span><br><span class="line">	fgets(buf, <span class="number">256</span>, <span class="built_in">stdin</span>);</span><br><span class="line">	buf[<span class="built_in">strlen</span>(buf) - <span class="number">1</span>] = <span class="string">'\0'</span>;<span class="comment">//去掉读取进去的换行符</span></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		fputc(buf[i],fp);</span><br><span class="line">		<span class="keyword">if</span> (buf[i] == <span class="string">'\0'</span>) &#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic6.png" alt="图片"><br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic7.png" alt="图片">  </p>
+
+        <h3 id="练习：从一个文件（文本文件）中读取所有信息，写入到另一个文件中">
+          <a href="#练习：从一个文件（文本文件）中读取所有信息，写入到另一个文件中" class="heading-link"><i class="fas fa-link"></i></a>练习：从一个文件（文本文件）中读取所有信息，写入到另一个文件中</h3>
+      <p>参考：<code>r+ w+ fgetc fputc EOF</code></p>
+
+        <h2 id="字符串的读写函数">
+          <a href="#字符串的读写函数" class="heading-link"><i class="fas fa-link"></i></a>字符串的读写函数</h2>
+      
+        <h3 id="字符串的写操作fputs">
+          <a href="#字符串的写操作fputs" class="heading-link"><i class="fas fa-link"></i></a>字符串的写操作fputs</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fputs(const char *s, FILE *stream);</code></li>
+<li>返回值：<ul>
+<li>成功：返回一个非负值</li>
+<li>失败：返回 EOF</li>
+</ul>
+</li>
+<li>注意：字符串的’\0’不会写入到文件中，且遇到’\0’结束</li>
+</ul>
+
+        <h3 id="字符串的读操作">
+          <a href="#字符串的读操作" class="heading-link"><i class="fas fa-link"></i></a>字符串的读操作</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>char *fgets(char *s, int size, FILE *stream);</code></li>
+<li>返回值：<ul>
+<li>成功：返回相同的 str 参数</li>
+<li>到达文件末尾或者没有读取到任何字符：返回NULL</li>
+<li>发生错误：返回NULL</li>
+</ul>
+</li>
+<li>注意：从<code>stream</code>文件中读取<code>size-1</code>个字符，在读取过程中遇到换行符或EOF，读取结束，并读取换行符，在最后加一个’\0’。获取一行数据。</li>
+</ul>
+
+        <h3 id="案例3：">
+          <a href="#案例3：" class="heading-link"><i class="fas fa-link"></i></a>案例3：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test3</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span>* buf[] = &#123;</span><br><span class="line">		<span class="string">"给你一整首情诗\n"</span>,</span><br><span class="line">		<span class="string">"关于你温暖名字\n"</span>,</span><br><span class="line">		<span class="string">"在每个孑然的深夜为你诵读\n"</span>,</span><br><span class="line">		<span class="string">"字句真诚而坚固\n"</span>,</span><br><span class="line">		<span class="string">"星辰也为你祝福\n"</span> &#125;;</span><br><span class="line">	<span class="keyword">int</span> n = <span class="keyword">sizeof</span>(buf) / <span class="keyword">sizeof</span>(buf[<span class="number">0</span>]);</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/c.txt"</span>, <span class="string">"w"</span>);</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		res = <span class="built_in">fputs</span>(buf[i], fp);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic8.png" alt="图片">  </p>
+
+        <h3 id="案例4：">
+          <a href="#案例4：" class="heading-link"><i class="fas fa-link"></i></a>案例4：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test4</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span>* res=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">char</span> str[<span class="number">256</span>] = <span class="string">""</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/c.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		res = fgets(str, <span class="keyword">sizeof</span>(str), fp);</span><br><span class="line">		<span class="keyword">if</span> (res == <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%s"</span>, str);</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic9.png" alt="图片">  </p>
+
+        <h2 id="文件块的读写函数">
+          <a href="#文件块的读写函数" class="heading-link"><i class="fas fa-link"></i></a>文件块的读写函数</h2>
+      
+        <h3 id="文件块的写操作fwrite">
+          <a href="#文件块的写操作fwrite" class="heading-link"><i class="fas fa-link"></i></a>文件块的写操作fwrite</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>size_t fwrite(const void *ptr, size_t size, size_t nmemb,FILE *stream);</code></li>
+<li>函数参数：<ol>
+<li>第一个参数：从哪里读取写入</li>
+<li>第二个参数：一次读写的数据块大小</li>
+<li>第三个参数：要读写的数据块数</li>
+<li>第四个参数：要写入文件的指针</li>
+</ol>
+</li>
+<li>返回值：<ul>
+<li>实际读写的数据块数（不是总数据大小，重要）</li>
+</ul>
+</li>
+<li>注意：fwrite是将内存中的数据原样写入到文件中，记事本打开会出现乱码；但是数据本身是没问题的，不影响读取</li>
+</ul>
+
+        <h3 id="文件块的读操作fread">
+          <a href="#文件块的读操作fread" class="heading-link"><i class="fas fa-link"></i></a>文件块的读操作fread</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);</code></li>
+<li>函数参数：<ol>
+<li>第一个参数：读到哪里去</li>
+<li>第二个参数：一次读写的数据块大小</li>
+<li>第三个参数：要读写的数据块数</li>
+<li>第四个参数：要写入文件的指针</li>
+</ol>
+</li>
+<li>返回值：<ul>
+<li>实际读写的数据块数（不是总数据大小，重要）</li>
+</ul>
+</li>
+</ul>
+
+        <h3 id="案例5：">
+          <a href="#案例5：" class="heading-link"><i class="fas fa-link"></i></a>案例5：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test5</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	STU grade[] = &#123;</span><br><span class="line">		&#123;<span class="number">100</span>,<span class="string">"xiaochen"</span>,<span class="number">98</span>&#125;,</span><br><span class="line">		&#123;<span class="number">101</span>,<span class="string">"xiaohua"</span>,<span class="number">87</span>&#125;,</span><br><span class="line">		&#123;<span class="number">102</span>,<span class="string">"xiaoming"</span>,<span class="number">60</span>&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">int</span> n = <span class="keyword">sizeof</span>(grade) / <span class="keyword">sizeof</span>(grade[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/d.txt"</span>, <span class="string">"w"</span>);</span><br><span class="line">	fwrite(grade, <span class="keyword">sizeof</span>(STU), n, fp);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic10.png" alt="图片">  </p>
+
+        <h3 id="案例6：">
+          <a href="#案例6：" class="heading-link"><i class="fas fa-link"></i></a>案例6：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test6</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	STU grade[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">int</span> n = <span class="keyword">sizeof</span>(grade) / <span class="keyword">sizeof</span>(grade[<span class="number">0</span>]);</span><br><span class="line">	<span class="built_in">memset</span>(grade, <span class="number">0</span>, <span class="keyword">sizeof</span>(grade));</span><br><span class="line">	<span class="keyword">int</span>	i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/d.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">	<span class="comment">/*for (i = 0; i &lt; 3; i++) &#123;</span></span><br><span class="line"><span class="comment">		fread(&amp;grade[i], sizeof(STU), n, fp);</span></span><br><span class="line"><span class="comment">	&#125;*/</span></span><br><span class="line">	fread(&amp;grade[i], <span class="keyword">sizeof</span>(STU), <span class="number">3</span>, fp);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"num=%d name=%s score=%f\n"</span>, grade[i].num, grade[i].name, grade[i].score);</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic11.png" alt="图片">  </p>
+
+        <h2 id="文件的格式化读写">
+          <a href="#文件的格式化读写" class="heading-link"><i class="fas fa-link"></i></a>文件的格式化读写</h2>
+      
+        <h3 id="格式化写操作fprintf">
+          <a href="#格式化写操作fprintf" class="heading-link"><i class="fas fa-link"></i></a>格式化写操作fprintf</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fprintf(FILE *stream, const char *format, ...);</code></li>
+<li>函数参数：<ol>
+<li>第一个参数：要写入文件的指针</li>
+</ol>
+</li>
+<li>返回值：<ul>
+<li>成功：返回写入的字符总数</li>
+<li>失败：返回一个负数。</li>
+</ul>
+</li>
+</ul>
+
+        <h3 id="格式化读操作fscanf">
+          <a href="#格式化读操作fscanf" class="heading-link"><i class="fas fa-link"></i></a>格式化读操作fscanf</h3>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fscanf(FILE *stream, const char *format, ...);</code></li>
+<li>函数参数：<ol>
+<li>第一个参数：要读取的文件的指针</li>
+</ol>
+</li>
+<li>返回值：<ul>
+<li>成功：返回成功匹配和赋值的个数</li>
+<li>到达文件末尾或发生读错误：返回EOF。</li>
+</ul>
+</li>
+</ul>
+
+        <h3 id="案例7：">
+          <a href="#案例7：" class="heading-link"><i class="fas fa-link"></i></a>案例7：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test7</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	STU grade[] = &#123;</span><br><span class="line">		&#123;<span class="number">100</span>,<span class="string">"xiaochen"</span>,<span class="number">98</span>&#125;,</span><br><span class="line">		&#123;<span class="number">101</span>,<span class="string">"xiaohua"</span>,<span class="number">87</span>&#125;,</span><br><span class="line">		&#123;<span class="number">102</span>,<span class="string">"xiaoming"</span>,<span class="number">60</span>&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">int</span> n = <span class="keyword">sizeof</span>(grade) / <span class="keyword">sizeof</span>(grade[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/e.txt"</span>,<span class="string">"w"</span>);</span><br><span class="line">	<span class="keyword">if</span> (fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		perror(<span class="string">"fopen"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(fp, <span class="string">"num=%d name=%s score=%f\n"</span>, grade[i].num, grade[i].name, grade[i].score);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic12.png" alt="图片"></p>
+
+        <h3 id="案例8：">
+          <a href="#案例8：" class="heading-link"><i class="fas fa-link"></i></a>案例8：</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test8</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	STU grade[<span class="number">3</span>];</span><br><span class="line">	<span class="built_in">memset</span>(grade, <span class="number">0</span>, <span class="keyword">sizeof</span>(grade));</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/e.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">	<span class="keyword">if</span> (fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		perror(<span class="string">"fopen"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">fscanf</span>(fp, <span class="string">"num=%d name=%s score=%f\n"</span>, &amp;grade[i].num, grade[i].name, \</span><br><span class="line">			&amp;grade[i].score);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"num=%d name=%s score=%f\n"</span>, grade[i].num, grade[i].name, grade[i].score);</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic13.png" alt="图片"></p>
+<hr>
+
+        <h2 id="文件的随机读写">
+          <a href="#文件的随机读写" class="heading-link"><i class="fas fa-link"></i></a>文件的随机读写</h2>
+      <p><code>rewind、ftell、fseek函数</code></p>
+
+        <h3 id="引入">
+          <a href="#引入" class="heading-link"><i class="fas fa-link"></i></a>引入</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test9</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">16</span>] = <span class="string">""</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/f.txt"</span>, <span class="string">"w+"</span>);</span><br><span class="line">	<span class="keyword">if</span> (fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		perror(<span class="string">"fopen"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fputs</span>(<span class="string">"hello file!"</span>, fp);</span><br><span class="line"></span><br><span class="line">	fgets(buf, <span class="number">16</span>, fp);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, buf);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic14.png" alt="图片">  </p>
+
+        <h4 id="为什么会出现这种现象？">
+          <a href="#为什么会出现这种现象？" class="heading-link"><i class="fas fa-link"></i></a>为什么会出现这种现象？</h4>
+      <p>当写入hello file!完成后，流指针到达文件末尾!的位置；当再次读取的时候从!开始读取，由于系统不知道你要写入多少内容，他会给你分配足够的空间，所以后面是屯屯屯，而当读取屯屯屯后流指针停在了屯屯屯的末尾，即分配的足够空间的末尾，此时再关闭文件，屯屯屯也不会消失了。如果没有进行读取操作在写入hello file!后立即关闭文件，系统会自动删除流指针后面的屯屯屯。   </p>
+<p>解决办法：文件写完后需要关闭文件，然后重新打开文件。让文件流指针指向文件开始的位置。（顺序读取只能这样解决）  </p>
+
+        <h2 id="rewind">
+          <a href="#rewind" class="heading-link"><i class="fas fa-link"></i></a>rewind</h2>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>void rewind(FILE *stream);</code></li>
+<li>返回值：<code>void</code></li>
+<li>功能：将文件流指针返回到文件首位置</li>
+</ul>
+
+        <h2 id="ftell">
+          <a href="#ftell" class="heading-link"><i class="fas fa-link"></i></a>ftell</h2>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>long ftell(FILE *stream);</code></li>
+<li>返回值：返回流指针距离文件首的字节数</li>
+<li>功能：测量当前流指针的位置</li>
+</ul>
+
+        <h2 id="fseek">
+          <a href="#fseek" class="heading-link"><i class="fas fa-link"></i></a>fseek</h2>
+      <ul>
+<li>头文件：<code>#include &lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int fseek(FILE *stream, long offset, int whence);</code></li>
+<li>函数参数：<ul>
+<li>offset：偏移量（正数向右，负数向左）</li>
+<li>whence：开始偏移的位置<ul>
+<li>SEEK_SET 文件的开头（宏 0）</li>
+<li>SEEK_CUR 文件指针的当前位置（宏 1）</li>
+<li>SEEK_END 文件的末尾（宏 2）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>返回值：<ul>
+<li>成功：函数返回零</li>
+<li>失败：返回非零值</li>
+</ul>
+</li>
+<li>功能：流指针的移动</li>
+</ul>
+
+        <h3 id="案例9：">
+          <a href="#案例9：" class="heading-link"><i class="fas fa-link"></i></a>案例9：</h3>
+      <p>根据文件大小动态申请空间，一次性读取文件所有内容</p>
+<figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test10</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/g.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">	<span class="keyword">if</span> (fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		perror(<span class="string">"fopen"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//1、测量文件大小</span></span><br><span class="line">	<span class="comment">//a、跳到文件末尾</span></span><br><span class="line">	fseek(fp, <span class="number">0</span>, SEEK_END);</span><br><span class="line">	<span class="comment">//b、获取当前位置距文件首的字节数</span></span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">size</span> = ftell(fp);</span><br><span class="line">	<span class="comment">//c、将流指针跳回文件首</span></span><br><span class="line">	rewind(fp);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//2、申请堆区空间</span></span><br><span class="line">	<span class="keyword">char</span>* buf = (<span class="keyword">char</span>*)<span class="built_in">calloc</span>(<span class="number">1</span>,<span class="built_in">size</span>+<span class="number">1</span>);<span class="comment">//加1目的是存放 \0</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//3、将文件内容读取到内存</span></span><br><span class="line">	fread(buf,<span class="built_in">size</span>,<span class="number">1</span>,fp);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//打印读取出的内容</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, buf);	</span><br><span class="line"></span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic15.png" alt="图片">  </p>
+
+        <h2 id="feof函数">
+          <a href="#feof函数" class="heading-link"><i class="fas fa-link"></i></a>feof函数</h2>
+      <ul>
+<li><p>头文件：<code>#include&lt;stdio.h&gt;</code></p>
+</li>
+<li><p>函数定义：<code>int feof(FILE *stream);</code></p>
+</li>
+<li><p>返回值：当设置了与流关联的文件结束标识符时，该函数返回一个非零值，否则返回零。即，</p>
+<ul>
+<li>文件结束:返回非0</li>
+<li>文件未结束：返回0</li>
+</ul>
+</li>
+<li><p>功能：判断文件是否到达末尾</p>
+</li>
+<li><p>注意：</p>
+<ol>
+<li>EOF宏 只能用于文本文件</li>
+<li>feof函数：文本文件、二进制文件都可以使用
+        <h2 id="案例10：">
+          <a href="#案例10：" class="heading-link"><i class="fas fa-link"></i></a>案例10：</h2>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test11</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> ch = <span class="string">'\0'</span>;</span><br><span class="line">	FILE* fp = <span class="literal">NULL</span>;</span><br><span class="line">	fp = fopen(<span class="string">"C:/Users/11977/Desktop/g.txt"</span>, <span class="string">"r"</span>);</span><br><span class="line">	<span class="keyword">if</span> (fp == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		perror(<span class="string">"fopen"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (feof(fp) == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		ch = fgetc(fp);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%c"</span>, ch);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+运行结果：<br><img src="/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/pic16.png" alt="图片">  </li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="ferror函数">
+          <a href="#ferror函数" class="heading-link"><i class="fas fa-link"></i></a>ferror函数</h2>
+      <ul>
+<li>头文件：<code>#include&lt;stdio.h&gt;</code></li>
+<li>函数定义：<code>int ferror(FILE *stream)</code></li>
+<li>返回值：如果设置了与流关联的错误标识符，该函数返回一个非零值，否则返回一个零值。即，<ul>
+<li>遇到错误:返回非0</li>
+<li>无错误：返回0</li>
+</ul>
+</li>
+</ul>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://www.yuencode.cn">假前端up主</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/">http://www.yuencode.cn/2020/05/28/C%E8%AF%AD%E8%A8%80-day22/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/%E9%9A%8F%E8%AE%B0/">随记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/06/21/%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">连接服务器数据库</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/05/27/C%E8%AF%AD%E8%A8%80-day21/"><span class="paginator-prev__text">C语言 day21</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#文件"><span class="toc-number">1.</span> <span class="toc-text">
+          文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">
+          文件的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘文件的分类"><span class="toc-number">1.1.1.</span> <span class="toc-text">
+          磁盘文件的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本文件"><span class="toc-number">1.1.2.</span> <span class="toc-text">
+          文本文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二进制文件"><span class="toc-number">1.1.3.</span> <span class="toc-text">
+          二进制文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本文件、二进制文件的对比（重要）"><span class="toc-number">1.1.4.</span> <span class="toc-text">
+          文本文件、二进制文件的对比（重要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的打开与关闭"><span class="toc-number">1.2.</span> <span class="toc-text">
+          文件的打开与关闭</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件指针"><span class="toc-number">1.3.</span> <span class="toc-text">
+          文件指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fopen打开文件"><span class="toc-number">1.4.</span> <span class="toc-text">
+          fopen打开文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#打开方式的组合形式"><span class="toc-number">1.4.1.</span> <span class="toc-text">
+          打开方式的组合形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fclose关闭文件"><span class="toc-number">1.5.</span> <span class="toc-text">
+          fclose关闭文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的顺序读写"><span class="toc-number">1.6.</span> <span class="toc-text">
+          文件的顺序读写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字节的读写函数"><span class="toc-number">1.7.</span> <span class="toc-text">
+          字节的读写函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字节的读操作fgetc"><span class="toc-number">1.7.1.</span> <span class="toc-text">
+          字节的读操作fgetc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字节的读操作fgetc-1"><span class="toc-number">1.7.2.</span> <span class="toc-text">
+          字节的读操作fgetc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例1："><span class="toc-number">1.7.3.</span> <span class="toc-text">
+          案例1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例2："><span class="toc-number">1.7.4.</span> <span class="toc-text">
+          案例2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#练习：从一个文件（文本文件）中读取所有信息，写入到另一个文件中"><span class="toc-number">1.7.5.</span> <span class="toc-text">
+          练习：从一个文件（文本文件）中读取所有信息，写入到另一个文件中</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串的读写函数"><span class="toc-number">1.8.</span> <span class="toc-text">
+          字符串的读写函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串的写操作fputs"><span class="toc-number">1.8.1.</span> <span class="toc-text">
+          字符串的写操作fputs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串的读操作"><span class="toc-number">1.8.2.</span> <span class="toc-text">
+          字符串的读操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例3："><span class="toc-number">1.8.3.</span> <span class="toc-text">
+          案例3：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例4："><span class="toc-number">1.8.4.</span> <span class="toc-text">
+          案例4：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件块的读写函数"><span class="toc-number">1.9.</span> <span class="toc-text">
+          文件块的读写函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件块的写操作fwrite"><span class="toc-number">1.9.1.</span> <span class="toc-text">
+          文件块的写操作fwrite</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件块的读操作fread"><span class="toc-number">1.9.2.</span> <span class="toc-text">
+          文件块的读操作fread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例5："><span class="toc-number">1.9.3.</span> <span class="toc-text">
+          案例5：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例6："><span class="toc-number">1.9.4.</span> <span class="toc-text">
+          案例6：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的格式化读写"><span class="toc-number">1.10.</span> <span class="toc-text">
+          文件的格式化读写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#格式化写操作fprintf"><span class="toc-number">1.10.1.</span> <span class="toc-text">
+          格式化写操作fprintf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式化读操作fscanf"><span class="toc-number">1.10.2.</span> <span class="toc-text">
+          格式化读操作fscanf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例7："><span class="toc-number">1.10.3.</span> <span class="toc-text">
+          案例7：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#案例8："><span class="toc-number">1.10.4.</span> <span class="toc-text">
+          案例8：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的随机读写"><span class="toc-number">1.11.</span> <span class="toc-text">
+          文件的随机读写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引入"><span class="toc-number">1.11.1.</span> <span class="toc-text">
+          引入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么会出现这种现象？"><span class="toc-number">1.11.1.1.</span> <span class="toc-text">
+          为什么会出现这种现象？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rewind"><span class="toc-number">1.12.</span> <span class="toc-text">
+          rewind</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ftell"><span class="toc-number">1.13.</span> <span class="toc-text">
+          ftell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fseek"><span class="toc-number">1.14.</span> <span class="toc-text">
+          fseek</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例9："><span class="toc-number">1.14.1.</span> <span class="toc-text">
+          案例9：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#feof函数"><span class="toc-number">1.15.</span> <span class="toc-text">
+          feof函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例10："><span class="toc-number">1.16.</span> <span class="toc-text">
+          案例10：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ferror函数"><span class="toc-number">1.17.</span> <span class="toc-text">
+          ferror函数</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/website-bg/me.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">假前端up主</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/desire599/" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span><span class="sidebar-ov-social-item__text">github</span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/392608919" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon">B</span><span class="sidebar-ov-social-item__text">bilibili</span></a><a class="sidebar-ov-social-item" href="https://user.qzone.qq.com/1197780293" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span><span class="sidebar-ov-social-item__text">qq</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">8</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div></div></main></div><div class="clearfix"><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>假前端up主</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank" style="color:#ffffff;">鄂ICP备20007949号-1</a></span></div><div style="width:300px;margin:0 auto; padding:20px 0;"><a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/icons/archival.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42022202000078号</p></a></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '84692761a5d3776d26f4',
+    clientSecret: 'bdafce2aedf40c41d8d82adfe3b443d7371c45d7',
+    repo: 'desire599.github.io',
+    owner: 'desire599',
+    admin: ['desire599'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script></body></html>

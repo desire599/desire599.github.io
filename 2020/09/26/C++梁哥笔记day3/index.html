@@ -1,0 +1,507 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="引用(reference)       引用是C++对C的重要扩充。在c&#x2F;c++中指针的作用基本都是一样的，但是C++增加了另外一种给函数传递地址的途径，这就是按引用传递(pass-by-reference)，它也存在于其他一些编程语言中，并不是是C++的发明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++笔记梁哥day3">
+<meta property="og:url" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="引用(reference)       引用是C++对C的重要扩充。在c&#x2F;c++中指针的作用基本都是一样的，但是C++增加了另外一种给函数传递地址的途径，这就是按引用传递(pass-by-reference)，它也存在于其他一些编程语言中，并不是是C++的发明。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic6.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic7.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic8.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic9.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic10.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic11.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic12.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic13.png">
+<meta property="article:published_time" content="2020-09-26T15:56:43.000Z">
+<meta property="article:modified_time" content="2020-12-24T17:31:21.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C++笔记梁哥day3 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">只要脚步不停，就一定能到达终点</div><div class="header-banner-info__subtitle">保持好奇心 保持乐趣 保有兴趣</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="引用(reference)       引用是C++对C的重要扩充。在c&#x2F;c++中指针的作用基本都是一样的，但是C++增加了另外一种给函数传递地址的途径，这就是按引用传递(pass-by-reference)，它也存在于其他一些编程语言中，并不是是C++的发明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++笔记梁哥day3">
+<meta property="og:url" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="引用(reference)       引用是C++对C的重要扩充。在c&#x2F;c++中指针的作用基本都是一样的，但是C++增加了另外一种给函数传递地址的途径，这就是按引用传递(pass-by-reference)，它也存在于其他一些编程语言中，并不是是C++的发明。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic5.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic6.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic7.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic8.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic9.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic10.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic11.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic12.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic13.png">
+<meta property="article:published_time" content="2020-09-26T15:56:43.000Z">
+<meta property="article:modified_time" content="2020-12-24T17:31:21.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C++笔记梁哥day3 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><header class="post-header"><h1 class="post-title">C++笔记梁哥day3</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-09-26</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-12-25</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.1k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">17分</span></span></div></header><div class="post-body">
+        <h1 id="引用-reference">
+          <a href="#引用-reference" class="heading-link"><i class="fas fa-link"></i></a>引用(reference)</h1>
+      <p>引用是C++对C的重要扩充。在c/c++中指针的作用基本都是一样的，但是C++增加了另外一种给函数传递地址的途径，这就是按引用传递(pass-by-reference)，它也存在于其他一些编程语言中，并不是是C++的发明。  </p>
+<a id="more"></a>
+
+<p>变量名实质上是一段连续内存空间的别名，是一个标号(门牌号)，程序中通过变量来申请并命名内存空间，通过变量的名字可以使用存储空间</p>
+<p>对一段连续的内存空间只能取一个别名吗？c++中新增了引用的概念，引用可以作为一个已定义变量的别名。基本语法: Type&amp; ref=val;  </p>
+<p>注意事项：&amp;在此不是取地址运算，而是起标识作用。类型标识符是指目标变量的类型，必须在声明引用变量时进行初始化。引用初始化之后不能改变。不能有 NULL 引用。必须确保引用是和一块合法的存储单元关联。可以建立对数组的引用。</p>
+
+        <h2 id="一、引用的初始">
+          <a href="#一、引用的初始" class="heading-link"><i class="fas fa-link"></i></a>一、引用的初始</h2>
+      <p><strong>语法：</strong></p>
+<ol>
+<li>&amp;和别名结合，表示引用</li>
+<li>给某个变量取别名，就定义某个变量</li>
+<li>从上往下替换</li>
+<li>赋值<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//现在要给num定义一个引用a</span></span><br><span class="line"><span class="comment">//第一步 &amp;和a结合</span></span><br><span class="line">&amp;a</span><br><span class="line"><span class="comment">//第二步 给num取别名，定义num</span></span><br><span class="line"><span class="keyword">int</span> num;</span><br><span class="line"><span class="comment">//第三步 从上往下替换</span></span><br><span class="line"><span class="keyword">int</span> &amp;a;</span><br><span class="line"><span class="comment">//第四步 赋值</span></span><br><span class="line"><span class="keyword">int</span> &amp;a = num;</span><br></pre></td></tr></table></div></figure>
+<blockquote>
+<p>a完全等价于num，操作a就是操作num。</p>
+</blockquote>
+</li>
+</ol>
+<p>注意：引用必须初始化，一旦初始化就不能再次修改。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;a = num;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> data = <span class="number">20</span>;</span><br><span class="line">a = data;<span class="comment">//这个语句不是将data的别名设置成a，而是将data的值赋给了a(num)</span></span><br></pre></td></tr></table></div></figure>
+
+        <h2 id="二、引用作用于数组">
+          <a href="#二、引用作用于数组" class="heading-link"><i class="fas fa-link"></i></a>二、引用作用于数组</h2>
+      
+        <h3 id="1、方法一：直接替换法">
+          <a href="#1、方法一：直接替换法" class="heading-link"><i class="fas fa-link"></i></a>1、方法一：直接替换法</h3>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">5</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="comment">//现在要给arr定义一个引用myArr</span></span><br><span class="line"><span class="comment">//第一步 &amp;和myArr结合</span></span><br><span class="line">&amp;myArr</span><br><span class="line"><span class="comment">//第二步 给num取别名，定义num</span></span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">5</span>];</span><br><span class="line"><span class="comment">//第三步 从上往下替换</span></span><br><span class="line"><span class="keyword">int</span> (&amp;myArr)[<span class="number">5</span>];<span class="comment">//要加() []的优先级比&amp;高</span></span><br><span class="line"><span class="comment">//第四步 赋值</span></span><br><span class="line"><span class="keyword">int</span> (&amp;myArr)[<span class="number">5</span>] = arr;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">	<span class="keyword">int</span> (&amp;myArr)[<span class="number">5</span>] = arr;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)&#123;</span><br><span class="line">    	<span class="built_in">cout</span>&lt;&lt;<span class="string">"myArr["</span>&lt;&lt;i&lt;&lt;<span class="string">"]="</span>&lt;&lt;myArr[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic1.png" alt="图片">  </p>
+
+        <h3 id="2、方法二：配合typedef">
+          <a href="#2、方法二：配合typedef" class="heading-link"><i class="fas fa-link"></i></a>2、方法二：配合typedef</h3>
+      <p>先用<code>typedef</code>给类型取个别名，在使用类型的别名定义变量，接着再给变量定义引用</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test02</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> arr[<span class="number">5</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span> TYPE_ARR[<span class="number">5</span>];</span><br><span class="line">    TYPE_ARR newArr=&#123;<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>&#125;;</span><br><span class="line">	TYPE_ARR &amp;myArr = newArr;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)&#123;</span><br><span class="line">    	<span class="built_in">cout</span>&lt;&lt;<span class="string">"myArr["</span>&lt;&lt;i&lt;&lt;<span class="string">"]="</span>&lt;&lt;myArr[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    	<span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic2.png" alt="图片">  </p>
+
+        <h2 id="三、引用作为函数的参数">
+          <a href="#三、引用作为函数的参数" class="heading-link"><i class="fas fa-link"></i></a>三、引用作为函数的参数</h2>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//交换失败</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap1</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;m&lt;&lt;<span class="string">",n="</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">int</span> temp=m;</span><br><span class="line">    m=n;</span><br><span class="line">    n=temp;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;m&lt;&lt;<span class="string">",n="</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//交换成功 但是比较麻烦</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap2</span><span class="params">(<span class="keyword">int</span> *m,<span class="keyword">int</span> *n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;*m&lt;&lt;<span class="string">",n="</span>&lt;&lt;*n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">int</span> temp=*m;</span><br><span class="line">    *m=*n;</span><br><span class="line">    *n=temp;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;*m&lt;&lt;<span class="string">",n="</span>&lt;&lt;*n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//交换成功 操作简便</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap3</span><span class="params">(<span class="keyword">int</span> &amp;m,<span class="keyword">int</span> &amp;n)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;m&lt;&lt;<span class="string">",n="</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">int</span> temp=m;</span><br><span class="line">    m=n;</span><br><span class="line">    n=temp;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"m="</span>&lt;&lt;m&lt;&lt;<span class="string">",n="</span>&lt;&lt;n&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test03</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">10</span>,b=<span class="number">20</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"a="</span>&lt;&lt;a&lt;&lt;<span class="string">",b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    swap1(a,b);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"swap1(a,b)  a="</span>&lt;&lt;a&lt;&lt;<span class="string">",b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    swap2(&amp;a,&amp;b);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"swap2(&amp;a,&amp;b)  a="</span>&lt;&lt;a&lt;&lt;<span class="string">",b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    swap3(a,b);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"swap3(a,b)  a="</span>&lt;&lt;a&lt;&lt;<span class="string">",b="</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic3.png" alt="图片">  </p>
+
+        <h2 id="四、引用作为函数的返回值">
+          <a href="#四、引用作为函数的返回值" class="heading-link"><i class="fas fa-link"></i></a>四、引用作为函数的返回值</h2>
+      <ol>
+<li><p>不要返回局部变量的引用</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">my_data1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test04</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> &amp;ret = my_data1();</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"ret="</span>&lt;&lt;ret&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//非法访问内存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic4.png" alt="图片"><br>如果返回局部变量的引用是很危险的，当函数执行完后，局部变量已经被释放，这个时候你去操作它就是操作非法空间。</p>
+</li>
+<li><p>可以返回静态局部变量的的引用，它的生命周期比较长</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">my_data2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test05</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> &amp;ret = my_data2();</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"ret="</span>&lt;&lt;ret&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    ret = <span class="number">200</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"ret="</span>&lt;&lt;ret&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic5.png" alt="图片">  </p>
+</li>
+<li><p>当函数返回值作为<code>左值</code>时，那么函数的返回值的类型必须是<code>引用</code></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>&amp; <span class="title">my_data3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">50</span>;<span class="comment">//static定义的变量只会初始化一次</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;num&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test06</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//函数的返回值 作为左值</span></span><br><span class="line">    my_data3() = <span class="number">2000</span>;<span class="comment">//调用函数，同时将2000赋给了函数的返回值</span></span><br><span class="line">    my_data3();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic6.png" alt="图片">  </p>
+</li>
+</ol>
+
+        <h2 id="五、引用的本质是常量指针-了解">
+          <a href="#五、引用的本质是常量指针-了解" class="heading-link"><i class="fas fa-link"></i></a>五、引用的本质是常量指针(了解)</h2>
+      <p>引用的本质在C++内部实现是一个指针常量. </p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Type&amp; ref = val;<span class="comment">//Type* const ref = &amp;val;</span></span><br></pre></td></tr></table></div></figure>
+<p>C++编译器在编译过程中使用常指针作为引用内部实现，因此引用所占用的空间大小与指针相同，只是这个过程是编译器内部实现，用户不可见。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> data = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;a = data;<span class="comment">//a就是data的别名</span></span><br><span class="line"><span class="comment">//编译器内部转换： int * const a = &amp;data; const修饰的是a，意思是a一旦保存了data的地址后就不能改变</span></span><br><span class="line">a = <span class="number">100</span>;<span class="comment">//等价于data=100;</span></span><br><span class="line"><span class="comment">//编译器内部转换：*a = 100;//*a == data;</span></span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h2 id="六、指针的引用">
+          <a href="#六、指针的引用" class="heading-link"><i class="fas fa-link"></i></a>六、指针的引用</h2>
+      <figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">char</span> **p)</span></span>&#123;</span><br><span class="line">    *p = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>)*<span class="number">32</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(*p,<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">char</span> *(&amp;p))</span></span>&#123;</span><br><span class="line">    p = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">char</span>)*<span class="number">32</span>);</span><br><span class="line">    <span class="built_in">strcpy</span>(p,<span class="string">"hello!"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test07</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *str = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//需求：定义一个函数 申请一段空间 给str 并将"hello world!"存进去</span></span><br><span class="line">    <span class="comment">//采用二级指针 </span></span><br><span class="line">    func1(&amp;str);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"str = "</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="comment">//采用引用 </span></span><br><span class="line">    func2(str);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"str = "</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic7.png" alt="图片">  </p>
+
+        <h2 id="七、常引用">
+          <a href="#七、常引用" class="heading-link"><i class="fas fa-link"></i></a>七、常引用</h2>
+      <p>需求：定义一个函数需求遍历一个结构体</p>
+<ol>
+<li>直接传入结构体<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">STU</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> num;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintSTU1</span><span class="params">(STU stu)</span></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"sizeof(stu)="</span>&lt;&lt;<span class="keyword">sizeof</span>(stu)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;stu.num&lt;&lt;<span class="string">",name = "</span>&lt;&lt;stu.name&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test08</span><span class="params">()</span></span>&#123;</span><br><span class="line">	STU stu = &#123;<span class="number">100</span>,<span class="string">"lucy"</span>&#125;;</span><br><span class="line">	myPrintSTU1(stu); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic8.png" alt="图片">  </li>
+</ol>
+<p>函数<code>myPrintSTU1</code>的缺点是形参占用空间太多</p>
+<ol start="2">
+<li>传入结构体的地址<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">STU</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> num;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">STU</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> num;</span><br><span class="line">    <span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintSTU2</span><span class="params">(STU *stu)</span></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"sizeof(stu)="</span>&lt;&lt;<span class="keyword">sizeof</span>(stu)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;stu-&gt;num&lt;&lt;<span class="string">",name = "</span>&lt;&lt;stu.name&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test09</span><span class="params">()</span></span>&#123;</span><br><span class="line">	STU stu = &#123;<span class="number">200</span>,<span class="string">"bob"</span>&#125;;</span><br><span class="line">	myPrintSTU2(&amp;stu); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic9.png" alt="图片">  </li>
+</ol>
+<p>函数<code>myPrintSTU2</code>的解决了形参占用空间太多，在32位环境中只占用四字节，但是缺点是传入的是指针，这个函数只是用来遍历，读取操作，但是可以修改结构体stu里面的内容，这样很危险</p>
+<ol start="3">
+<li><p>2的优化<br>将形参加了const修饰</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintSTU3</span><span class="params">(STU <span class="keyword">const</span> *stu)</span></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"sizeof(stu)="</span>&lt;&lt;<span class="keyword">sizeof</span>(stu)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">	<span class="comment">//stu-&gt;num=2000;不能修改 会报错 </span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;stu-&gt;num&lt;&lt;<span class="string">",name = "</span>&lt;&lt;stu-&gt;name&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test10</span><span class="params">()</span></span>&#123;</span><br><span class="line">	STU stu = &#123;<span class="number">200</span>,<span class="string">"bob"</span>&#125;;</span><br><span class="line">	myPrintSTU3(&amp;stu); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p>采用引用的方法</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintSTU4</span><span class="params">(STU &amp;stu)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;stu.num&lt;&lt;<span class="string">",name = "</span>&lt;&lt;stu.name&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test11</span><span class="params">()</span></span>&#123;</span><br><span class="line">	STU stu = &#123;<span class="number">300</span>,<span class="string">"Lily"</span>&#125;;</span><br><span class="line">	myPrintSTU4(stu); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic10.png" alt="图片">  </p>
+</li>
+</ol>
+<p>函数<code>myPrintSTU4</code>的解决了形参占用空间太多，其不占用空间，这个函数只是用来遍历，读取操作，但是可以修改结构体stu里面的内容，这样很危险，所以就有了<code>常引用</code></p>
+<ol start="5">
+<li>4的优化，使用常引用</li>
+</ol>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myPrintSTU5</span><span class="params">(STU <span class="keyword">const</span>  &amp;stu)</span></span>&#123;</span><br><span class="line">    stu.num=<span class="number">4000</span>;<span class="comment">//不能修改 会报错</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;stu.num&lt;&lt;<span class="string">",name = "</span>&lt;&lt;stu.name&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test12</span><span class="params">()</span></span>&#123;</span><br><span class="line">    STU stu = &#123;<span class="number">300</span>,<span class="string">"Lily"</span>&#125;;</span><br><span class="line">    myPrintSTU5(stu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic11.png" alt="图片">  </p>
+
+        <h3 id="常量的引用">
+          <a href="#常量的引用" class="heading-link"><i class="fas fa-link"></i></a>常量的引用</h3>
+      <p>给常量取一个别名（定义一个引用）</p>
+<ol>
+<li><p>会报错10的类型是const int，类型不匹配，系统怕你后面把常量10改了 num=20;</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test13</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> &amp;num = <span class="number">10</span>;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;num&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic12.png" alt="图片">  </p>
+</li>
+<li><figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test14</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">int</span> &amp;num = <span class="number">10</span>;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"num = "</span>&lt;&lt;num&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/pic13.png" alt="图片">  </p>
+</li>
+</ol>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://www.yuencode.cn">假前端up主</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/">http://www.yuencode.cn/2020/09/26/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day3/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/%E9%9A%8F%E8%AE%B0/">随记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/12/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day4/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">C++梁哥笔记day4</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/09/25/C++%E6%A2%81%E5%93%A5%E7%AC%94%E8%AE%B0day2/"><span class="paginator-prev__text">C++梁哥笔记day2</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引用-reference"><span class="toc-number">1.</span> <span class="toc-text">
+          引用(reference)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、引用的初始"><span class="toc-number">1.1.</span> <span class="toc-text">
+          一、引用的初始</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、引用作用于数组"><span class="toc-number">1.2.</span> <span class="toc-text">
+          二、引用作用于数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、方法一：直接替换法"><span class="toc-number">1.2.1.</span> <span class="toc-text">
+          1、方法一：直接替换法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、方法二：配合typedef"><span class="toc-number">1.2.2.</span> <span class="toc-text">
+          2、方法二：配合typedef</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、引用作为函数的参数"><span class="toc-number">1.3.</span> <span class="toc-text">
+          三、引用作为函数的参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、引用作为函数的返回值"><span class="toc-number">1.4.</span> <span class="toc-text">
+          四、引用作为函数的返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、引用的本质是常量指针-了解"><span class="toc-number">1.5.</span> <span class="toc-text">
+          五、引用的本质是常量指针(了解)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、指针的引用"><span class="toc-number">1.6.</span> <span class="toc-text">
+          六、指针的引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、常引用"><span class="toc-number">1.7.</span> <span class="toc-text">
+          七、常引用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常量的引用"><span class="toc-number">1.7.1.</span> <span class="toc-text">
+          常量的引用</span></a></li></ol></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/website-bg/me.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">假前端up主</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/desire599/" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span><span class="sidebar-ov-social-item__text">github</span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/392608919" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon">B</span><span class="sidebar-ov-social-item__text">bilibili</span></a><a class="sidebar-ov-social-item" href="https://user.qzone.qq.com/1197780293" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span><span class="sidebar-ov-social-item__text">qq</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">8</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div></div></main></div><div class="clearfix"><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>假前端up主</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank" style="color:#ffffff;">鄂ICP备20007949号-1</a></span></div><div style="width:300px;margin:0 auto; padding:20px 0;"><a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/icons/archival.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42022202000078号</p></a></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '84692761a5d3776d26f4',
+    clientSecret: 'bdafce2aedf40c41d8d82adfe3b443d7371c45d7',
+    repo: 'desire599.github.io',
+    owner: 'desire599',
+    admin: ['desire599'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script></body></html>

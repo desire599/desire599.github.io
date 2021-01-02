@@ -1,0 +1,545 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="动态内存申请        动态内存申请的相关概念 静态分配和动态分配 动态内存申请相关函数 内存泄漏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day11">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="动态内存申请        动态内存申请的相关概念 静态分配和动态分配 动态内存申请相关函数 内存泄漏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4-1.png">
+<meta property="article:published_time" content="2020-05-13T14:06:13.000Z">
+<meta property="article:modified_time" content="2020-05-13T14:11:20.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day11 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">只要脚步不停，就一定能到达终点</div><div class="header-banner-info__subtitle">保持好奇心 保持乐趣 保有兴趣</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="description" content="动态内存申请        动态内存申请的相关概念 静态分配和动态分配 动态内存申请相关函数 内存泄漏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 day11">
+<meta property="og:url" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/">
+<meta property="og:site_name" content="只要脚步不停，就一定能到达终点">
+<meta property="og:description" content="动态内存申请        动态内存申请的相关概念 静态分配和动态分配 动态内存申请相关函数 内存泄漏">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic1.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic2.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic3.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4.png">
+<meta property="og:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4-1.png">
+<meta property="article:published_time" content="2020-05-13T14:06:13.000Z">
+<meta property="article:modified_time" content="2020-05-13T14:11:20.000Z">
+<meta property="article:author" content="假前端up主">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic1.png"><meta name="keywords" content="假前端up主, 只要脚步不停，就一定能到达终点"><meta name="description" content=""><title>C语言 day11 | 只要脚步不停，就一定能到达终点</title><link ref="canonical" href="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.0-rc.0"><link rel="dns-prefetch" href="https://tajs.qq.com"><script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script><script>(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://tajs.qq.com/stats?sId=66548017';
+  hm.async = true;
+
+  if (false) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":"ture"},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: true,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><header class="post-header"><h1 class="post-title">C语言 day11</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-05-13</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-05-13</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">14分</span></span></div></header><div class="post-body">
+        <h1 id="动态内存申请">
+          <a href="#动态内存申请" class="heading-link"><i class="fas fa-link"></i></a>动态内存申请</h1>
+      <ol>
+<li>动态内存申请的相关概念</li>
+<li>静态分配和动态分配</li>
+<li>动态内存申请相关函数</li>
+<li>内存泄漏</li>
+</ol>
+<a id="more"></a>
+
+
+
+        <h2 id="动态内存申请的相关概念">
+          <a href="#动态内存申请的相关概念" class="heading-link"><i class="fas fa-link"></i></a>动态内存申请的相关概念</h2>
+      <ol>
+<li>在数组一章中，介绍过数组的长度是预先定义好的，在整个程序中固定不变</li>
+<li>但是在实际的编程中，往往会发生这种情况，即所需的内存空间取决于实际输入的数据，而无法预先确定</li>
+<li>为了解决上诉问题，C语言提供了一些内存管理函数，这些内存管理函数可以按需要动态的分配内存空间，也可以把不在使用的空间回收再次利用</li>
+</ol>
+<hr>
+
+        <h2 id="静态分配和动态分配">
+          <a href="#静态分配和动态分配" class="heading-link"><i class="fas fa-link"></i></a>静态分配和动态分配</h2>
+      
+        <h3 id="静态分配">
+          <a href="#静态分配" class="heading-link"><i class="fas fa-link"></i></a>静态分配</h3>
+      <ol>
+<li>在程序编译或运行过程中，按事先规定大小分配内存空间的分配方式</li>
+<li>必须事先知道所需空间的大小</li>
+<li>分配在栈区或全局变量区,一般以数组形式</li>
+<li>按计划分配</li>
+</ol>
+
+        <h3 id="动态分配">
+          <a href="#动态分配" class="heading-link"><i class="fas fa-link"></i></a>动态分配</h3>
+      <ol>
+<li>在程序运行过程中，根据需要大小自由分配所需空间</li>
+<li>按需分配</li>
+<li>分配在堆区，一般使用特定的函数进行分配</li>
+</ol>
+<hr>
+
+        <h2 id="动态内存申请相关函数">
+          <a href="#动态内存申请相关函数" class="heading-link"><i class="fas fa-link"></i></a>动态内存申请相关函数</h2>
+      
+        <h3 id="1、分配内存空间的函数-malloc">
+          <a href="#1、分配内存空间的函数-malloc" class="heading-link"><i class="fas fa-link"></i></a>1、分配内存空间的函数 malloc</h3>
+      <ul>
+<li><p>头文件：<code>#include&lt;stdlib.h&gt;</code></p>
+</li>
+<li><p>函数原型：void *malloc(unsigned int num_bytes); ——&gt; (返回值void *)</p>
+</li>
+<li><p>调用形式：(类型说明符<em>) malloc (size); ——&gt; (类型说明符</em>)进行强制类型转换</p>
+</li>
+<li><p>功能说明：</p>
+<ol>
+<li>在内存的动态储存区（堆区）中分配一块长度为size字节的连续区域用来存放类型说明符指定的类型</li>
+<li>函数原型返回<code>void*</code>指针，使用时必须做相应的强制类型转换</li>
+<li>分配的内存空间内容不确定，一般使用<code>menset</code>初始化</li>
+</ol>
+</li>
+<li><p>返回值：</p>
+<ul>
+<li>分配空间的起始地址（分配成功）</li>
+<li>NULL（分配失败）</li>
+</ul>
+</li>
+<li><p>注意：</p>
+<ol>
+<li>在调用malloc之后，一定要判断一下，是否申请内存成功</li>
+<li>如果多次malloc申请内存，每次申请的内存之间不一定是连续的，但是每个内存内部肯定是连续的</li>
+</ol>
+</li>
+</ul>
+
+        <h3 id="2、free函数（释放内存函数）">
+          <a href="#2、free函数（释放内存函数）" class="heading-link"><i class="fas fa-link"></i></a>2、free函数（释放内存函数）</h3>
+      <ul>
+<li>头文件：<code>#include&lt;stdlib.h&gt;</code></li>
+<li>函数定义：<code>void free(void *ptr);</code></li>
+<li>函数说明：<code>free</code>函数释放<code>ptr</code>指向的内存</li>
+<li>注意：ptr指向的内存必须是<code>malloc calloc relloc</code>动态申请的内存，只能释放堆区空间</li>
+</ul>
+
+        <h4 id="案例1：申请一个int变量的空间">
+          <a href="#案例1：申请一个int变量的空间" class="heading-link"><i class="fas fa-link"></i></a>案例1：申请一个int变量的空间</h4>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//定义一个变量去接申请好的空间的首地址</span></span><br><span class="line">    <span class="keyword">int</span> *addr=<span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//申请一个int变量空间</span></span><br><span class="line">    addr = (<span class="keyword">int</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>));<span class="comment">//sizeof(int)兼容作用，不同平台int字节数可能不同</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//判断是否申请成功</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == addr)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"malloc err\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,*addr);<span class="comment">//值不确定，要进行清0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//清空</span></span><br><span class="line">    <span class="built_in">memset</span>(addr,<span class="number">0</span>,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));<span class="comment">//#include&lt;string.h&gt; 不加这个，可能会报隐形声明的警告</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,*addr);<span class="comment">//值为0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//写</span></span><br><span class="line">    *addr=<span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//读</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,*addr);<span class="comment">//1000</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放堆区空间</span></span><br><span class="line">    <span class="built_in">free</span>(addr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic1.png" alt="图片">  </p>
+
+        <h4 id="案例2：从堆区申请一个int数组，数组大小由用户决定">
+          <a href="#案例2：从堆区申请一个int数组，数组大小由用户决定" class="heading-link"><i class="fas fa-link"></i></a>案例2：从堆区申请一个int数组，数组大小由用户决定</h4>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">//获取数组元素个数</span></span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入数组元素个数：\n"</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//申请内存空间</span></span><br><span class="line">    <span class="keyword">int</span> *arr=(<span class="keyword">int</span> *)<span class="built_in">malloc</span>(n*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == arr)&#123;</span><br><span class="line">        perror(<span class="string">"malloc"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//清0</span></span><br><span class="line">    <span class="built_in">memset</span>(arr,<span class="number">0</span>,n*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//键盘获取元素</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入%d个int型数据：\n"</span>,n);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,arr+i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出获取的元素</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="comment">// printf("%d ",*(arr+i));</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>,arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放堆区空间</span></span><br><span class="line">    <span class="built_in">free</span>(arr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic2.png" alt="图片">  </p>
+
+        <h3 id="3、calloc函数">
+          <a href="#3、calloc函数" class="heading-link"><i class="fas fa-link"></i></a>3、calloc函数</h3>
+      <ul>
+<li>头文件：<code>#include&lt;stdlib.h&gt;</code></li>
+<li>函数原型：<code>void * calloc(size_t nmenb,size_t size);</code></li>
+<li>功能说明：在内存的堆中，申请<code>nmemb</code>块。每块大小为<code>size</code>个字节的连续区域</li>
+<li>函数参数：<code>size_t</code>实际是无符号整型，它是在头文件中，用<code>typedef</code>定义出来的</li>
+<li>返回值：<ul>
+<li>成功：返回申请的内存的首地址</li>
+<li>失败 返回<code>NULL</code></li>
+</ul>
+</li>
+<li>例如：char *p = (char *)calloc(3,100)</li>
+<li>特点：calloc函数申请的内存中的内容为0，自动清零；而malloc申请的内存中的内容随机的，不确定的</li>
+</ul>
+
+        <h4 id="案例3：案例2改造">
+          <a href="#案例3：案例2改造" class="heading-link"><i class="fas fa-link"></i></a>案例3：案例2改造</h4>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">//获取数组元素个数</span></span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入数组元素个数：\n"</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//申请内存空间</span></span><br><span class="line">    <span class="keyword">int</span> *arr=(<span class="keyword">int</span> *)<span class="built_in">calloc</span>(n,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == arr)&#123;</span><br><span class="line">        perror(<span class="string">"malloc"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="comment">//键盘获取元素</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入%d个int型数据：\n"</span>,n);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,arr+i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出获取的元素</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="comment">// printf("%d ",*(arr+i));</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>,arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放堆区空间</span></span><br><span class="line">    <span class="built_in">free</span>(arr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：<br><img src="/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic3.png" alt="图片">  </p>
+
+        <h3 id="4、realloc函数">
+          <a href="#4、realloc函数" class="heading-link"><i class="fas fa-link"></i></a>4、realloc函数</h3>
+      <blockquote>
+<p>动态追加或减少空间</p>
+</blockquote>
+<ul>
+<li>头文件：<code>#include&lt;stdlib.h&gt;</code></li>
+<li>函数原型：<code>void * realloc(void *s,unsigned int newsize);</code></li>
+<li>功能说明：在原先s指向的内存基础上重新申请内存，新的内存大小为new_sizeof个字节（包含原先的内存大小！！），如果原先内存后面有足够大的空间，就追加，返回的内存地址还是跟原先的一样的；如果后面的内存不够用，则realloc函数会在堆区找一个new_size个字节的内存申请，将原先内存中的内容拷贝过来，然后释放原先的内存，最后返回新的内存地址</li>
+<li>函数参数：<code>size_t</code>实际是无符号整型，它是在头文件中，用<code>typedef</code>定义出来的</li>
+<li>返回值：新申请的内存的首地址</li>
+</ul>
+
+        <h4 id="案例4：改造案例3">
+          <a href="#案例4：改造案例3" class="heading-link"><i class="fas fa-link"></i></a>案例4：改造案例3</h4>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> *argv[])</span></span>&#123;</span><br><span class="line">    <span class="comment">//获取数组元素个数</span></span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入数组元素个数：\n"</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//申请内存空间</span></span><br><span class="line">    <span class="keyword">int</span> *arr=(<span class="keyword">int</span> *)<span class="built_in">calloc</span>(n,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == arr)&#123;</span><br><span class="line">        perror(<span class="string">"malloc"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="comment">//键盘获取元素</span></span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入%d个int型数据：\n"</span>,n);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,arr+i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出获取的元素</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="comment">// printf("%d ",*(arr+i));</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>,arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 追加元素</span></span><br><span class="line">    <span class="keyword">int</span> new_size=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入追加元素的个数：\n"</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;new_size);</span><br><span class="line"></span><br><span class="line">    arr=<span class="built_in">realloc</span>(arr,(n+new_size)*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    一定要接一下返回值，因为</span></span><br><span class="line"><span class="comment">    如果后面的内存不够用，则realloc函数会在堆区找一个new_size个字节的内存申请，将原先内存中的内容拷贝过来，然后释放原先的内存，最后返回新的内存地址</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取新追加的元素</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"请输入追加的%d个元素：\n"</span>,new_size);</span><br><span class="line">    <span class="keyword">for</span>(i=n;i&lt;new_size+n;i++)&#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,arr+i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//输出所有的元素</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n+new_size;i++)&#123;</span><br><span class="line">        <span class="comment">// printf("%d ",*(arr+i));</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d "</span>,arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放堆区空间</span></span><br><span class="line">    <span class="built_in">free</span>(arr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<p>运行结果：  </p>
+<ol>
+<li>增加元素  </li>
+</ol>
+<p><img src="/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4.png" alt="图片">  </p>
+<ol start="2">
+<li>减少元素  </li>
+</ol>
+<p><img src="/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/pic4-1.png" alt="图片">  </p>
+<hr>
+
+        <h2 id="堆区空间使用的注意事项">
+          <a href="#堆区空间使用的注意事项" class="heading-link"><i class="fas fa-link"></i></a>堆区空间使用的注意事项</h2>
+      <ol>
+<li><p>指向堆区空间的指向变量，不要随意的更改指向，会造成堆区空间无法释放，造成内存泄漏</p>
+</li>
+<li><p>不要操作已经释放了的空间，内容是不确定的</p>
+</li>
+<li><p>不要对堆区空间重复释放.运行时,程序会直接终止</p>
+</li>
+</ol>
+
+        <h3 id="防止多次释放的方法（坚持使用这种方式）">
+          <a href="#防止多次释放的方法（坚持使用这种方式）" class="heading-link"><i class="fas fa-link"></i></a>防止多次释放的方法（坚持使用这种方式）</h3>
+      <figure class="highlight c"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p = (<span class="keyword">int</span> *)<span class="built_in">calloc</span>(<span class="number">1</span>,<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// free(p);</span></span><br><span class="line"><span class="comment">// free(p);</span></span><br><span class="line"><span class="keyword">if</span>(p != <span class="literal">NULL</span>)&#123;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    p=<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(p != <span class="literal">NULL</span>)&#123;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    p=<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+
+
+<hr>
+
+        <h2 id="内存泄漏">
+          <a href="#内存泄漏" class="heading-link"><i class="fas fa-link"></i></a>内存泄漏</h2>
+      <p>内存泄漏（Memory Leak）是指程序中己动态分配的堆内存由于某种原因程序未释放或无法释放，造成系统内存的浪费，导致程序运行速度减慢甚至系统崩溃等严重后果。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="http://www.yuencode.cn">假前端up主</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/">http://www.yuencode.cn/2020/05/13/C%E8%AF%AD%E8%A8%80-day11/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="http://www.yuencode.cn/tags/%E9%9A%8F%E8%AE%B0/">随记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/05/14/C%E8%AF%AD%E8%A8%80-day12/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">C语言 day12</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/05/12/C%E8%AF%AD%E8%A8%80-day10/"><span class="paginator-prev__text">C语言 day10</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态内存申请"><span class="toc-number">1.</span> <span class="toc-text">
+          动态内存申请</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#动态内存申请的相关概念"><span class="toc-number">1.1.</span> <span class="toc-text">
+          动态内存申请的相关概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分配和动态分配"><span class="toc-number">1.2.</span> <span class="toc-text">
+          静态分配和动态分配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态分配"><span class="toc-number">1.2.1.</span> <span class="toc-text">
+          静态分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态分配"><span class="toc-number">1.2.2.</span> <span class="toc-text">
+          动态分配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态内存申请相关函数"><span class="toc-number">1.3.</span> <span class="toc-text">
+          动态内存申请相关函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、分配内存空间的函数-malloc"><span class="toc-number">1.3.1.</span> <span class="toc-text">
+          1、分配内存空间的函数 malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、free函数（释放内存函数）"><span class="toc-number">1.3.2.</span> <span class="toc-text">
+          2、free函数（释放内存函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例1：申请一个int变量的空间"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">
+          案例1：申请一个int变量的空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例2：从堆区申请一个int数组，数组大小由用户决定"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">
+          案例2：从堆区申请一个int数组，数组大小由用户决定</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、calloc函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">
+          3、calloc函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例3：案例2改造"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">
+          案例3：案例2改造</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、realloc函数"><span class="toc-number">1.3.4.</span> <span class="toc-text">
+          4、realloc函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例4：改造案例3"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">
+          案例4：改造案例3</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆区空间使用的注意事项"><span class="toc-number">1.4.</span> <span class="toc-text">
+          堆区空间使用的注意事项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#防止多次释放的方法（坚持使用这种方式）"><span class="toc-number">1.4.1.</span> <span class="toc-text">
+          防止多次释放的方法（坚持使用这种方式）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存泄漏"><span class="toc-number">1.5.</span> <span class="toc-text">
+          内存泄漏</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/website-bg/me.jpg" alt="avatar"></div><p class="sidebar-ov-author__text">假前端up主</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/desire599/" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span><span class="sidebar-ov-social-item__text">github</span></a><a class="sidebar-ov-social-item" href="https://space.bilibili.com/392608919" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon">B</span><span class="sidebar-ov-social-item__text">bilibili</span></a><a class="sidebar-ov-social-item" href="https://user.qzone.qq.com/1197780293" target="_blank" rel="noopener"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span><span class="sidebar-ov-social-item__text">qq</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">47</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">8</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div></div></main></div><div class="clearfix"><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>假前端up主</span><span class="footer__devider">|</span><span><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank" style="color:#ffffff;">鄂ICP备20007949号-1</a></span></div><div style="width:300px;margin:0 auto; padding:20px 0;"><a target="_blank" href="https://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/icons/archival.png" style="float:left;"><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">鄂公网安备 42022202000078号</p></a></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '84692761a5d3776d26f4',
+    clientSecret: 'bdafce2aedf40c41d8d82adfe3b443d7371c45d7',
+    repo: 'desire599.github.io',
+    owner: 'desire599',
+    admin: ['desire599'],
+    distractionFreeMode: 'false',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.0-rc.0"></script><script src="/js/stun-boot.js?v=2.0.0-rc.0"></script><script src="/js/scroll.js?v=2.0.0-rc.0"></script><script src="/js/header.js?v=2.0.0-rc.0"></script><script src="/js/sidebar.js?v=2.0.0-rc.0"></script></body></html>
